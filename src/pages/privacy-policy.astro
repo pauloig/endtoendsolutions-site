@@ -1,0 +1,112 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const updated = "2026-10-04";
+---
+
+<BaseLayout
+  title="[PLACEHOLDER: SEO title] Privacy Policy"
+  description="How End to End Solutions handles data on this site: Google Analytics traffic measurement, cookies, and contact form submissions."
+>
+  <Header />
+
+  <main id="main" class="mx-auto w-full max-w-3xl flex-1 px-4 py-14 sm:px-6 sm:py-20">
+    <h1 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+      Privacy Policy
+    </h1>
+    <p class="mt-2 text-sm text-muted">
+      Last updated: <time datetime={updated}>{updated}</time>
+    </p>
+
+    <!--
+      [PLACEHOLDER: este texto es un borrador técnico. Debe revisarlo una
+      persona cualificada y ajustarse a la jurisdicción del titular (p. ej.
+      GDPR/LOPD) antes de publicar.]
+    -->
+
+    <div class="mt-10 space-y-8 text-[0.975rem] leading-relaxed text-muted">
+      <section>
+        <h2 class="text-lg font-semibold text-ink">Summary</h2>
+        <p class="mt-2">
+          This site is operated by End to End Solutions. It is a small
+          marketing site with no accounts, no payments and no advertising
+          network. We only collect what we need to answer you and to know which
+          pages are useful.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-ink">Traffic measurement</h2>
+        <p class="mt-2">
+          We use <strong class="text-ink">Google Analytics 4 (GA4)</strong> to
+          measure how visitors use the site — which pages are read, where they
+          come from and roughly where they are located.
+        </p>
+        <p class="mt-2">
+          GA4 is loaded only after you accept analytics cookies through the
+          consent banner. If you reject, or dismiss the banner without
+          accepting, no analytics script is requested and no measurement
+          cookies are written.
+        </p>
+        <p class="mt-2">
+          Your choice is stored in your browser's local storage
+          (<code class="font-mono text-sm text-ink">e2e_analytics_consent</code>)
+          so we do not ask you again on this device. To change it later, clear
+          that entry in your browser's site data for this domain.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-ink">Contact form</h2>
+        <p class="mt-2">
+          If you submit the contact form we keep the name, email address and
+          message you provide so that we can reply. This information is used
+          only to answer your enquiry and is not sold or shared for marketing.
+        </p>
+        <p class="mt-2">
+          <!-- [PLACEHOLDER: definir el plazo de conservación y el canal de envío
+               cuando exista el backend real del formulario.] -->
+          [PLACEHOLDER: retention period and delivery channel pending]
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-ink">Your rights</h2>
+        <p class="mt-2">
+          Depending on where you live, you may have the right to access,
+          correct or delete the data we hold about you, and to object to or
+          restrict its processing. Requests can be sent to the contact address
+          below and will be answered within a reasonable time.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-ink">Third parties</h2>
+        <p class="mt-2">
+          Google Analytics is operated by Google LLC. Loading it transfers
+          your IP address and usage data to Google, which processes it under its
+          own privacy terms. No other third-party services are embedded on this
+          site.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-lg font-semibold text-ink">Contact</h2>
+        <p class="mt-2">
+          <!-- [PLACEHOLDER: dirección de contacto definitiva] -->
+          Questions about this policy:
+          <a
+            href="mailto:hello@example.com"
+            class="font-medium text-accent underline underline-offset-2 hover:text-accent-ink"
+          >
+            hello@example.com
+          </a>
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+</BaseLayout>

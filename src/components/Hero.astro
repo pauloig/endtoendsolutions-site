@@ -1,0 +1,58 @@
+---
+/*
+ * Hero.
+ *
+ * Restricción de diseño: la llamada a la acción tiene que verse sin hacer
+ * scroll, incluso en el viewport más pequeño (320×568). Por eso el bloque es
+ * compacto y escala por escalones: paddings, cuerpo de titular y etiquetas de
+ * los botones se reducen por debajo de 360px y 640px de ancho.
+ */
+---
+
+<section class="border-b border-line bg-surface">
+  <div class="mx-auto max-w-5xl px-4 pt-8 pb-10 sm:px-6 sm:pt-14 sm:pb-16">
+    <p
+      class="flex items-center gap-2 text-[0.7rem] font-semibold tracking-[0.18em] text-accent uppercase min-[360px]:text-xs"
+    >
+      <span aria-hidden="true" class="h-px w-6 bg-accent"></span>
+      <!-- [PLACEHOLDER: etiqueta de posicionamiento definitiva] -->
+      Senior technical partner
+    </p>
+
+    <h1
+      class="mt-3 max-w-3xl text-2xl leading-[1.12] font-semibold tracking-tight text-ink text-balance min-[360px]:mt-4 min-[360px]:text-3xl sm:text-4xl lg:text-5xl"
+    >
+      <!-- [PLACEHOLDER: titular definitivo] -->
+      A senior technical partner who can embed as a developer, lead architecture
+      decisions, or scale into a small team when the project needs it.
+    </h1>
+
+    <p
+      class="mt-3 max-w-2xl text-[0.95rem] text-pretty text-muted min-[360px]:text-base sm:mt-4 sm:text-lg"
+    >
+      <!-- [PLACEHOLDER: propuesta de valor en dos líneas] -->
+      Hands-on engineering and architecture for teams that need a senior
+      perspective without committing to a permanent hire.
+    </p>
+
+    <div
+      class="mt-5 flex flex-wrap items-center gap-2.5 min-[360px]:gap-3 sm:mt-7"
+    >
+      <a
+        href="#contact"
+        class="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-ink sm:px-5 sm:py-3"
+      >
+        <span class="min-[360px]:hidden">Let's talk</span>
+        <span class="hidden min-[360px]:inline">Start a conversation</span>
+        <span aria-hidden="true">→</span>
+      </a>
+      <a
+        href="#services"
+        class="inline-flex items-center justify-center rounded-md border border-line px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-paper sm:px-5 sm:py-3"
+      >
+        <span class="min-[360px]:hidden">Services</span>
+        <span class="hidden min-[360px]:inline">See how I can help</span>
+      </a>
+    </div>
+  </div>
+</section>

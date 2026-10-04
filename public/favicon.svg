@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="End to End Solutions">
+  <title>End to End Solutions</title>
+  <rect width="32" height="32" rx="7" fill="#14503c" />
+  <g fill="none" stroke="#f4f3ef" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M13.5 10.5 9 16l4.5 5.5" />
+    <path d="M22.5 10.5 18 16l4.5 5.5" />
+  </g>
+</svg>

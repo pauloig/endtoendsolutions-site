@@ -1,0 +1,107 @@
+---
+interface Props {
+  /** Clave de localStorage compartida con el cargador de GA4. */
+  consentKey: string;
+}
+
+const { consentKey } = Astro.props;
+---
+
+{/* Banner de consentimiento de cookies/analytics.
+
+    Nace oculto (`hidden`) y solo el script lo revela cuando el visitante aún
+    no ha guardado una decisión, evitando parpadeos en visitas posteriores.
+    "Accept" guarda `granted` y carga GA4; "Reject" guarda `denied` y GA4 no
+    se carga nunca. Sin JavaScript el banner no aparece, porque no hay forma
+    de cargar el script de forma condicional. */}
+
+<div
+  id="cookie-banner"
+  hidden
+  role="dialog"
+  aria-modal="false"
+  aria-labelledby="cookie-banner-title"
+  aria-describedby="cookie-banner-description"
+  class="fixed inset-x-0 bottom-0 z-40 p-3 sm:p-4"
+>
+  <div class="mx-auto flex max-w-3xl flex-col gap-4 rounded-xl border border-line bg-surface p-4 shadow-lg shadow-black/5 sm:flex-row sm:items-center sm:p-5">
+    <div class="flex-1">
+      <h2 id="cookie-banner-title" class="text-sm font-semibold text-ink">
+        Cookies and analytics
+      </h2>
+      <p id="cookie-banner-description" class="mt-1 text-sm text-muted">
+        <!-- [PLACEHOLDER: revisar el texto con lacopy legal definitiva] -->
+        We use Google Analytics to measure traffic on this site. No analytics
+        cookies are set until you accept. Read the{" "}
+        <a
+          href="/privacy-policy"
+          class="font-medium text-accent underline underline-offset-2 hover:text-accent-ink"
+        >
+          Privacy&nbsp;Policy
+        </a>.
+      </p>
+    </div>
+    <div class="flex shrink-0 gap-2">
+      <button
+        type="button"
+        data-consent-choice="denied"
+        class="flex-1 rounded-md border border-line px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-paper sm:flex-none"
+      >
+        Reject
+      </button>
+      <button
+        id="cookie-banner-accept"
+        type="button"
+        data-consent-choice="granted"
+        class="flex-1 rounded-md bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-ink sm:flex-none"
+      >
+        Accept
+      </button>
+    </div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ consentKey }}>
+  (function () {
+    var banner = document.getElementById("cookie-banner");
+    if (!banner) return;
+
+    var STORAGE_KEY = consentKey;
+    var hasDecision = false;
+
+    try {
+      hasDecision =
+        window.localStorage.getItem(STORAGE_KEY) === "granted" ||
+        window.localStorage.getItem(STORAGE_KEY) === "denied";
+    } catch (error) {
+      hasDecision = false;
+    }
+
+    if (hasDecision) return;
+
+    banner.hidden = false;
+    var acceptButton = document.getElementById("cookie-banner-accept");
+    if (acceptButton) acceptButton.focus();
+
+    banner.addEventListener("click", function (event) {
+      var target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+
+      var choice = target.getAttribute("data-consent-choice");
+      if (choice !== "granted" && choice !== "denied") return;
+
+      try {
+        window.localStorage.setItem(STORAGE_KEY, choice);
+      } catch (error) {
+        /* Sin persistencia la decisión solo aplica a esta navegación. */
+      }
+
+      banner.hidden = true;
+
+      // GA4 únicamente arranca con consentimiento explícito.
+      if (choice === "granted" && typeof window.__e2eLoadGA === "function") {
+        window.__e2eLoadGA();
+      }
+    });
+  })();
+</script>

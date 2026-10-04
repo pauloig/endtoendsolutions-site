@@ -1,0 +1,11 @@
+# robots.txt
+# [PLACEHOLDER: revisar antes de publicar en producción]
+
+User-agent: *
+Allow: /
+
+# Páginas internas que no deben indexarse.
+Disallow: /404
+
+# [PLACEHOLDER: añadir la línea Sitemap cuando exista sitemap.xml, por ejemplo
+# al instalar @astrojs/sitemap.]

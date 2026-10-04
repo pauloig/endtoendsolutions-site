@@ -1,0 +1,82 @@
+---
+import CookieBanner from "../components/CookieBanner.astro";
+import GoogleAnalytics from "../components/GoogleAnalytics.astro";
+import { CONSENT_STORAGE_KEY, SITE_NAME } from "../lib/analytics";
+import "../styles/global.css";
+
+interface Props {
+  /** Título de la página. Se combina con el nombre del sitio para el <title>. */
+  title: string;
+  /** Meta description de la página. */
+  description: string;
+  /** Ruta o URL absoluta de la imagen de Open Graph. */
+  ogImage?: string;
+  /** Texto alternativo de la imagen de Open Graph (accesibilidad). */
+  ogImageAlt?: string;
+  /** Añade `noindex, nofollow` (útil para 404 y páginas privadas). */
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  ogImage = "/og-image.png",
+  ogImageAlt = `${SITE_NAME} — senior technical partner for web products`,
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title.includes(SITE_NAME) ? title : `${title} · ${SITE_NAME}`;
+
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
+const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
+const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" sizes="48x48" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f4f3ef" />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content="en" />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:alt" content={ogImageAlt} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <GoogleAnalytics measurementId={gaMeasurementId} consentKey={CONSENT_STORAGE_KEY} />
+  </head>
+  <body class="flex min-h-dvh flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm font-medium text-white"
+    >
+      Skip to main content
+    </a>
+
+    <slot />
+
+    <CookieBanner consentKey={CONSENT_STORAGE_KEY} />
+  </body>
+</html>

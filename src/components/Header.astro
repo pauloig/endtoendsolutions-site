@@ -1,0 +1,57 @@
+---
+const navItems = [
+  // [PLACEHOLDER: enlaces definitivos; About y Work aún no tienen página]
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Work", href: "/work" },
+];
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+---
+
+<header
+  class="sticky top-0 z-30 border-b border-line bg-paper/85 backdrop-blur-sm"
+>
+  <div
+    class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
+  >
+    <a
+      href="/"
+      class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-ink uppercase transition-colors hover:text-accent"
+    >
+      <!--
+        [PLACEHOLDER: logotipo real. Texto provisional en lugar de una imagen,
+        por lo que no necesita texto alternativo.]
+      -->
+      <span aria-hidden="true" class="font-mono text-accent">//</span>
+      End to End Solutions
+    </a>
+
+    <nav aria-label="Main">
+      <ul class="flex items-center gap-1 sm:gap-2">
+        {
+          navItems.map((item) => {
+            const isCurrent = currentPath === item.href;
+
+            return (
+              <li>
+                <a
+                  href={item.href}
+                  aria-current={isCurrent ? "page" : undefined}
+                  class:list={[
+                    "rounded-md px-2 py-1.5 text-sm transition-colors sm:px-3",
+                    isCurrent
+                      ? "font-semibold text-ink"
+                      : "text-muted hover:text-ink",
+                  ]}
+                >
+                  {item.label}
+                </a>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </nav>
+  </div>
+</header>

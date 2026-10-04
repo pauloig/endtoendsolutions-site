@@ -1,0 +1,78 @@
+---
+interface Service {
+  title: string;
+  description: string;
+  /** Los servicios secundarios se muestran con menos peso visual. */
+  secondary?: boolean;
+}
+
+// [PLACEHOLDER: redacción definitiva de cada servicio]
+const services: Service[] = [
+  {
+    title: "Full-stack development",
+    description:
+      "Feature work and product iteration end to end, from data model to interface, in the stack your project already uses.",
+  },
+  {
+    title: "Technical architecture & system design",
+    description:
+      "Decisions that hold up as the product grows: boundaries, data flows, integrations and a pragmatic migration path.",
+  },
+  {
+    title: "Fractional / interim technical leadership",
+    description:
+      "Direction, reviews and mentoring for teams that need senior judgement without a full-time senior hire.",
+  },
+  {
+    title: "Code & architecture review",
+    description:
+      "An outside read on an existing codebase or proposal: risks, shortcuts and the changes worth making now.",
+  },
+  {
+    title: "Team augmentation",
+    secondary: true,
+    description:
+      "Extra senior capacity for a sprint or a launch window, working inside your team's rituals and tooling.",
+  },
+];
+---
+
+<section id="services" class="scroll-mt-16 border-b border-line">
+  <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
+    <h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
+      <!-- [PLACEHOLDER: título de la sección de servicios] -->
+      How I can help
+    </h2>
+    <p class="mt-2 max-w-2xl text-muted">
+      <!-- [PLACEHOLDER: intro breve de la sección de servicios] -->
+      Engagements start where the risk is highest and end when it is paid off.
+    </p>
+
+    <ul class="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
+      {
+        services.map((service) => (
+          <li
+            class:list={[
+              "rounded-lg border p-5",
+              service.secondary
+                ? "border-line bg-transparent"
+                : "border-line bg-surface",
+            ]}
+          >
+            <h3
+              class:list={[
+                "text-base font-semibold",
+                service.secondary ? "text-muted" : "text-ink",
+              ]}
+            >
+              {service.title}
+            </h3>
+            <p class="mt-2 text-sm leading-relaxed text-muted">
+              {service.description}
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
