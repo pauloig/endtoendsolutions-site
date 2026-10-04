@@ -23,3 +23,12 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# AI / assistant local context (machine-specific, not shared)
+rules/
+opencode.json
+opencode.jsonc
+.opencode/
+.claude/
+.cursor/
+.agents/
