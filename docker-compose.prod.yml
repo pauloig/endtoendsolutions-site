@@ -42,6 +42,18 @@ services:
     expose:
       - "80"
     depends_on: []
+    networks:
+      # `default` se mantiene porque el proxy local (`proxy` de este mismo
+      # stack) sigue resolviendo `web` por la red del proyecto. Se puede quitar
+      # cuando este stack ya no publique su propio proxy.
+      default:
+      # `edge-net` es la red externa del proxy compartido (edge-proxy), que
+      # enruta endtoendsolutions.dev hacia este contenedor. El alias debe ser
+      # único en toda la red: sin él, dos proyectos con un servicio `web`
+      # registrarían el mismo nombre en el DNS de Docker.
+      edge-net:
+        aliases:
+          - e2e-web
 
   certbot:
     image: certbot/certbot
@@ -70,3 +82,9 @@ services:
 volumes:
   certbot-certs:
   certbot-webroot:
+
+networks:
+  # Red del proxy compartido. Externa: la crea una vez el host
+  # (`docker network create edge-net`) y la comparten todos los stacks.
+  edge-net:
+    external: true
