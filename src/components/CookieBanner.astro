@@ -1,19 +1,19 @@
 ---
 interface Props {
-  /** Clave de localStorage compartida con el cargador de GA4. */
+  /** localStorage key shared with the GA4 loader. */
   consentKey: string;
 }
 
 const { consentKey } = Astro.props;
 ---
 
-{/* Banner de consentimiento de cookies/analytics.
+{/* Cookie/analytics consent banner.
 
-    Nace oculto (`hidden`) y solo el script lo revela cuando el visitante aún
-    no ha guardado una decisión, evitando parpadeos en visitas posteriores.
-    "Accept" guarda `granted` y carga GA4; "Reject" guarda `denied` y GA4 no
-    se carga nunca. Sin JavaScript el banner no aparece, porque no hay forma
-    de cargar el script de forma condicional. */}
+    It starts hidden (`hidden`) and only the script reveals it when the visitor
+    has not saved a decision yet, avoiding flicker on repeat visits.
+    "Accept" stores `granted` and loads GA4; "Reject" stores `denied` and GA4
+    is never loaded. Without JavaScript the banner does not appear, because
+    there is no way to load the script conditionally. */}
 
 <div
   id="cookie-banner"
@@ -30,7 +30,7 @@ const { consentKey } = Astro.props;
         Cookies and analytics
       </h2>
       <p id="cookie-banner-description" class="mt-1 text-sm text-muted">
-        <!-- [PLACEHOLDER: revisar el texto con lacopy legal definitiva] -->
+        <!-- [PLACEHOLDER: review the text with the final legal copy] -->
         We use Google Analytics to measure traffic on this site. No analytics
         cookies are set until you accept. Read the{" "}
         <a
@@ -93,12 +93,12 @@ const { consentKey } = Astro.props;
       try {
         window.localStorage.setItem(STORAGE_KEY, choice);
       } catch (error) {
-        /* Sin persistencia la decisión solo aplica a esta navegación. */
+        /* Without persistence the decision only applies to this navigation. */
       }
 
       banner.hidden = true;
 
-      // GA4 únicamente arranca con consentimiento explícito.
+      // GA4 only starts with explicit consent.
       if (choice === "granted" && typeof window.__e2eLoadGA === "function") {
         window.__e2eLoadGA();
       }

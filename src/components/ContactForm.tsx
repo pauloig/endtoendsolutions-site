@@ -12,8 +12,9 @@ const labelClass = "block text-sm font-medium text-ink";
 /**
  * Formulario de contacto (isla de React).
  *
- * [PLACEHOLDER: sólo UI. Falta conectar el envío real (endpoint, proveedor de
- * correo o Serverless Function); por ahora `handleSubmit` simula la respuesta.]
+ * [PLACEHOLDER: UI only. Still needs wiring up the real submission (endpoint,
+ * email provider or Serverless Function); for now `handleSubmit` simulates
+ * the response.]
  */
 export default function ContactForm() {
   const nameId = useId();
@@ -26,11 +27,11 @@ export default function ContactForm() {
   function handleSubmit(event: SubmitEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    // [PLACEHOLDER: enviar los datos a un endpoint real.]
+    // [PLACEHOLDER: send the data to a real endpoint.]
     setStatus("submitting");
 
-    // Simula la latencia de un envío para que el estado de la UI sea visible
-    // durante el desarrollo. Quitar cuando exista el backend.
+    // Simulates submission latency so the UI state is visible during
+    // development. Remove once the backend exists.
     window.setTimeout(() => {
       setStatus("sent");
     }, 600);

@@ -1,6 +1,6 @@
 #!/bin/sh
-# Entrypoint del proxy: decide qué configuración cargar y garantiza que nginx
-# pueda arrancar incluso antes de que exista un certificado válido.
+# Proxy entrypoint: decides which configuration to load and makes sure nginx
+# can start even before a valid certificate exists.
 set -e
 
 DOMAIN="${SERVER_NAME:-endtoendsolutions.dev}"
@@ -12,11 +12,11 @@ CONF_SRC="/etc/nginx/site-conf.d"
 if [ "$TLS_ENABLED" = "1" ]; then
   CONF_TEMPLATE="$CONF_SRC/prod.conf"
 
-  # Bootstrap: si aún no hay certificado (primera ejecución), genera uno
-  # temporal para que nginx pueda arrancar y así certbot pueda emitir el real
-  # vía webroot.
+  # Bootstrap: on first run there is no certificate yet, so generate a
+  # temporary one to let nginx start and certbot issue the real one over
+  # the webroot.
   if [ ! -f "$CERT_DIR/fullchain.pem" ] || [ ! -f "$CERT_DIR/privkey.pem" ]; then
-    echo "Certificado TLS no encontrado; generando uno temporal para el arranque..."
+    echo "No TLS certificate found; generating a temporary one to boot..."
 
     if ! command -v openssl >/dev/null 2>&1; then
       apk add --no-cache openssl >/dev/null 2>&1 || true
@@ -28,10 +28,10 @@ if [ "$TLS_ENABLED" = "1" ]; then
       -out "$CERT_DIR/fullchain.pem" \
       -subj "/CN=$DOMAIN" >/dev/null 2>&1
 
-    echo "Certificado temporal listo."
+    echo "Temporary certificate ready."
   fi
 
-  # Recarga periódica para aplicar renovaciones emitidas por certbot.
+  # Periodic reload to apply renewals issued by certbot.
   (
     while :; do
       sleep 6h
@@ -39,11 +39,11 @@ if [ "$TLS_ENABLED" = "1" ]; then
     done
   ) &
 else
-  echo "TLS deshabilitado (TLS_ENABLED=$TLS_ENABLED); sirviendo HTTP en el puerto 80."
+  echo "TLS disabled (TLS_ENABLED=$TLS_ENABLED); serving HTTP on port 80."
   CONF_TEMPLATE="$CONF_SRC/local.conf"
 fi
 
 sed "s/@SERVER_NAME@/$DOMAIN/g" "$CONF_TEMPLATE" > "$CONF_OUT"
-echo "Configuración cargada desde $(basename "$CONF_TEMPLATE") para $DOMAIN"
+echo "Configuration loaded from $(basename "$CONF_TEMPLATE") for $DOMAIN"
 
 exec nginx -g "daemon off;"

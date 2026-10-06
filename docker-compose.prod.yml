@@ -1,12 +1,17 @@
-# Stack de producción: proxy nginx + contenedor de estáticos. Sin base de
-# datos (el sitio es estático).
+# Production stack: nginx proxy + static container. No database (the site is
+# static).
 #
-#   HTTP  sin TLS (por defecto):   docker compose -f docker-compose.prod.yml up --build
-#   HTTPS con dominio real:        TLS_ENABLED=1 docker compose -f docker-compose.prod.yml --profile tls up --build -d
+#   HTTP  without TLS (default):  docker compose -f docker-compose.prod.yml up --build
+#   HTTPS with a real domain:     TLS_ENABLED=1 docker compose -f docker-compose.prod.yml --profile tls up --build -d
 #
-# El proxy sirve en el puerto 80 y hace reverse proxy hacia `web`. Con
-# TLS_ENABLED=1 el puerto 80 sólo responde al reto ACME y redirige a HTTPS;
-# el servicio `certbot` (perfil `tls`) emite y renueva el certificado.
+# The proxy listens on port 80 and reverse proxies to `web`. With TLS_ENABLED=1
+# port 80 only answers the ACME challenge and redirects to HTTPS; the `certbot`
+# service (`tls` profile) issues and renews the certificate.
+#
+# NOTE: the shared edge-proxy (edge-proxy repo) also publishes 80/443 and
+# reaches this container as `e2e-web` on the external `edge-net` network. This
+# stack's own `proxy`/`certbot` are superseded and must eventually be removed;
+# until then they conflict with edge-proxy for the host's port 80/443.
 
 services:
   proxy:
@@ -20,8 +25,8 @@ services:
       - "${HTTP_PORT:-80}:80"
       - "${HTTPS_PORT:-443}:443"
     volumes:
-      # Las plantillas viven fuera de conf.d para que nginx no las cargue
-      # directamente: el entrypoint copia solo la elegida.
+      # The templates live outside conf.d so nginx does not load them
+      # directly: the entrypoint copies only the chosen one.
       - ./nginx/nginx.prod.conf:/etc/nginx/site-conf.d/prod.conf:ro
       - ./nginx/nginx.local.conf:/etc/nginx/site-conf.d/local.conf:ro
       - ./nginx/entrypoint.sh:/entrypoint.sh:ro
@@ -43,14 +48,14 @@ services:
       - "80"
     depends_on: []
     networks:
-      # `default` se mantiene porque el proxy local (`proxy` de este mismo
-      # stack) sigue resolviendo `web` por la red del proyecto. Se puede quitar
-      # cuando este stack ya no publique su propio proxy.
+      # `default` is kept because this stack's own `proxy` still resolves
+      # `web` over the project network. It can go once this stack stops
+      # publishing its own proxy.
       default:
-      # `edge-net` es la red externa del proxy compartido (edge-proxy), que
-      # enruta endtoendsolutions.dev hacia este contenedor. El alias debe ser
-      # único en toda la red: sin él, dos proyectos con un servicio `web`
-      # registrarían el mismo nombre en el DNS de Docker.
+      # `edge-net` is the external network of the shared proxy (edge-proxy),
+      # which routes endtoendsolutions.dev to this container. The alias must be
+      # unique across the whole network: without it, two projects with a `web`
+      # service would register the same name in Docker's DNS.
       edge-net:
         aliases:
           - e2e-web
@@ -84,7 +89,7 @@ volumes:
   certbot-webroot:
 
 networks:
-  # Red del proxy compartido. Externa: la crea una vez el host
-  # (`docker network create edge-net`) y la comparten todos los stacks.
+  # Shared proxy network. External: the host creates it once
+  # (`docker network create edge-net`) and every stack shares it.
   edge-net:
     external: true

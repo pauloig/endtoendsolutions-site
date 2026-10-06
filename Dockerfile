@@ -1,14 +1,14 @@
 # syntax=docker/dockerfile:1
 
-# ---- Stage 1: build estático con Astro -------------------------------------
+# ---- Stage 1: static build with Astro -------------------------------------
 FROM node:24-alpine AS build
 
 WORKDIR /app
 
 RUN npm install -g pnpm@12.4.2
 
-# Primero los manifiestos: la capa de dependencias se cachea entre builds si el
-# lockfile no cambia.
+# Manifests first: the dependency layer is cached between builds as long as
+# the lockfile does not change.
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 RUN pnpm install --frozen-lockfile \
@@ -20,14 +20,14 @@ COPY astro.config.mjs tsconfig.json ./
 COPY src ./src
 COPY public ./public
 
-# Astro incrusta las variables PUBLIC_* en el bundle durante el build, así que
-# el Measurement ID de GA4 hay que pasarlo como ARG de build (no en runtime).
+# Astro inlines PUBLIC_* variables into the bundle at build time, so the GA4
+# Measurement ID has to be passed as a build ARG (not at runtime).
 ARG PUBLIC_GA_MEASUREMENT_ID=""
 ENV PUBLIC_GA_MEASUREMENT_ID=$PUBLIC_GA_MEASUREMENT_ID
 
 RUN pnpm build
 
-# ---- Stage 2: servir los estáticos con nginx ------------------------------
+# ---- Stage 2: serve the static files with nginx ----------------------------
 FROM nginx:alpine AS app
 
 COPY nginx/nginx.app.conf /etc/nginx/conf.d/default.conf

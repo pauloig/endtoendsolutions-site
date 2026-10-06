@@ -5,15 +5,15 @@ import { CONSENT_STORAGE_KEY, SITE_NAME } from "../lib/analytics";
 import "../styles/global.css";
 
 interface Props {
-  /** Título de la página. Se combina con el nombre del sitio para el <title>. */
+  /** Page title. Combined with the site name for the <title>. */
   title: string;
-  /** Meta description de la página. */
+  /** Meta description of the page. */
   description: string;
-  /** Ruta o URL absoluta de la imagen de Open Graph. */
+  /** Path or absolute URL of the Open Graph image. */
   ogImage?: string;
-  /** Texto alternativo de la imagen de Open Graph (accesibilidad). */
+  /** Alternative text for the Open Graph image (accessibility). */
   ogImageAlt?: string;
-  /** Añade `noindex, nofollow` (útil para 404 y páginas privadas). */
+  /** Adds `noindex, nofollow` (useful for 404 and private pages). */
   noindex?: boolean;
 }
 

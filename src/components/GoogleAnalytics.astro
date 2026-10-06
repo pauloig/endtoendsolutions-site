@@ -2,9 +2,9 @@
 import { isValidMeasurementId } from "../lib/analytics";
 
 interface Props {
-  /** Measurement ID de GA4 (variable `PUBLIC_GA_MEASUREMENT_ID`). */
+  /** GA4 Measurement ID (`PUBLIC_GA_MEASUREMENT_ID` variable). */
   measurementId?: string;
-  /** Clave de localStorage donde se guarda la decisión de consentimiento. */
+  /** localStorage key where the consent decision is stored. */
   consentKey: string;
 }
 
@@ -14,13 +14,13 @@ const gaId = isValidMeasurementId(measurementId)
   : "";
 ---
 
-{/* Snippet de GA4 reutilizable.
+{/* Reusable GA4 snippet.
 
-    No se inyecta la librería de Google hasta que existe consentimiento
-    explícito: la función global `window.__e2eLoadGA` es idempotente y solo
-    el banner de consentimiento (o una visita posterior con la decisión ya
-    guardada) la invoca. Si `PUBLIC_GA_MEASUREMENT_ID` no está definida o no
-    tiene un formato válido, el snippet queda inerte. */}
+    Google's library is not injected until explicit consent exists: the global
+    `window.__e2eLoadGA` function is idempotent and only the consent banner
+    (or a later visit with the decision already stored) calls it. If
+    `PUBLIC_GA_MEASUREMENT_ID` is undefined or not in a valid format, the
+    snippet stays inert. */}
 
 <script is:inline define:vars={{ gaId, consentKey }}>
   (function () {
@@ -44,13 +44,13 @@ const gaId = isValidMeasurementId(measurementId)
       document.head.appendChild(script);
     };
 
-    // Visita posterior: si ya se había aceptado, GA4 carga sin pedirlo de nuevo.
+    // Repeat visit: if consent was already granted, GA4 loads without asking.
     try {
       if (window.localStorage.getItem(consentKey) === "granted") {
         window.__e2eLoadGA();
       }
     } catch (error) {
-      /* localStorage bloqueado (modo privado): se queda sin medir. */
+      /* localStorage blocked (private mode): tracking stays off. */
     }
   })();
 </script>

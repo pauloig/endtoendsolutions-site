@@ -24,11 +24,11 @@ project needs it.*
 
 ```text
 .
-├── nginx/                  # nginx configs (app estático + proxy)
-│   ├── nginx.app.conf      #   sirve dist/ con soporte de 404.html
-│   ├── nginx.prod.conf     #   proxy con TLS (token @SERVER_NAME@)
-│   ├── nginx.local.conf    #   proxy sin TLS (por defecto)
-│   └── entrypoint.sh       #   elige config y hace bootstrap del certificado
+├── nginx/                  # nginx configs (static app + proxy)
+│   ├── nginx.app.conf      #   serves dist/ with 404.html support
+│   ├── nginx.prod.conf     #   TLS proxy (@SERVER_NAME@ token)
+│   ├── nginx.local.conf    #   proxy without TLS (default)
+│   └── entrypoint.sh       #   picks the config and bootstraps the certificate
 ├── public/                 # favicon.svg, favicon.ico, robots.txt, og-image.png
 ├── src/
 │   ├── components/
@@ -40,15 +40,15 @@ project needs it.*
 │   │   ├── Hero.astro
 │   │   └── ServicesList.astro
 │   ├── layouts/
-│   │   └── BaseLayout.astro# title/description por página + Open Graph
+│   │   └── BaseLayout.astro# per-page title/description + Open Graph
 │   ├── lib/
-│   │   └── analytics.ts    # clave de consentimiento + validación del ID
+│   │   └── analytics.ts    # consent key + measurement ID validation
 │   ├── pages/
 │   │   ├── 404.astro
 │   │   ├── index.astro
 │   │   └── privacy-policy.astro
 │   └── styles/
-│       └── global.css      # tokens de diseño + Tailwind
+│       └── global.css      # design tokens + Tailwind
 ├── Dockerfile
 ├── docker-compose.prod.yml
 └── astro.config.mjs
