@@ -58,16 +58,14 @@ one bug that must not ship.
 
 ## nginx / Docker
 
-- Proxy configs use an `@SERVER_NAME@` token that `nginx/entrypoint.sh`
-  substitutes with `sed`. They're mounted to `/etc/nginx/site-conf.d/`, i.e.
-  **outside** `conf.d/`, so nginx never auto-loads both variants.
+- This project only builds and runs its own `web` static container. It attaches
+  to the external shared reverse proxy ("edge-proxy" repo) via the external
+  `edge-net` Docker network with the service alias `e2e-web`. TLS, certificate
+  issuance, domain routing, and the shared proxy are all handled externally.
 - `.dockerignore` must **not** exclude `nginx/` — the final stage copies
   `nginx/nginx.app.conf` into the image.
-- TLS is opt-in: `TLS_ENABLED=1 … --profile tls` (certbot + ACME `http-01`).
-  Default is plain HTTP so the stack boots without a real domain.
 - Real 404s come from `error_page 404 /404.html` + `location = /404.html
-  { internal; }`; the proxy needs `proxy_intercept_errors off` to pass the
-  status through.
+  { internal; }`.
 - `try_files $uri $uri/index.html $uri.html =404` (not `$uri/`, which 301s).
 - nginx `add_header` in a child `location` **replaces all** inherited
   server-level `add_header`s. Use `expires` for per-location caching, or the

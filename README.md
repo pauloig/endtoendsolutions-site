@@ -92,40 +92,28 @@ the site keeps working.
 
 ## Docker
 
-### HTTP (default — how the acceptance check runs)
+This project only builds and runs its own static container (`web`). It attaches
+to the external shared reverse proxy (separate "edge-proxy" repository) via the
+external Docker network `edge-net`, using the service alias `e2e-web`.
+
+- **No TLS, no certbot, no domain-specific proxy config** live in this repo.
+- TLS, certificate issuance, and domain routing are handled entirely by the
+  external edge-proxy.
+- The `web` container serves the static build from `dist/` (including a real 404
+  page) and is exposed internally on port 80.
+
+Local/dev usage (serves the site directly):
 
 ```sh
 docker compose -f docker-compose.prod.yml up --build
 ```
-
-Serves the site on <http://localhost>.
-
-### HTTPS (production)
-
-Requires the domain to resolve to the host and port 80 reachable from the
-internet.
-
-```sh
-TLS_ENABLED=1 SERVER_NAME=endtoendsolutions.dev \
-  docker compose -f docker-compose.prod.yml --profile tls up --build -d
-```
-
-With `TLS_ENABLED=1` the proxy redirects port 80 to HTTPS, bootstraps a
-temporary self-signed certificate so nginx can boot, and the `certbot` service
-(only started by the `tls` profile) issues and renews the real certificate via
-the ACME `http-01` challenge. The proxy entrypoint reloads nginx every 6h to
-pick up renewals.
-
-Useful overrides (see `.env.example`): `HTTP_PORT`, `HTTPS_PORT`,
-`SERVER_NAME`, `LETSENCRYPT_EMAIL`.
 
 Notes:
 
 - No database: the site is fully static.
 - `PUBLIC_GA_MEASUREMENT_ID` is passed as a **build arg**, so changing it
   requires `--build`.
-- The app container serves `dist/404.html` with a real `404` status; the proxy
-  does not intercept upstream errors (`proxy_intercept_errors off`).
+- The app container serves `dist/404.html` with a real `404` status.
 
 ## Placeholders to replace
 
