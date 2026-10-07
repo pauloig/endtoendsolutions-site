@@ -1,12 +1,30 @@
 ---
-const navItems = [
-  // [PLACEHOLDER: final links; About and Work do not have a page yet]
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Work", href: "/work" },
-];
+interface Props {
+  locale?: "en" | "es";
+}
 
+const { locale = "en" } = Astro.props;
+
+const navItems = {
+  en: [
+    // [PLACEHOLDER: final links; About and Work do not have a page yet]
+    { label: "Home", href: "/" },
+    { label: "About", href: "/about" },
+    { label: "Work", href: "/work" },
+  ],
+  es: [
+    // [PLACEHOLDER: enlaces definitivos; About y Work aún no tienen página]
+    { label: "Inicio", href: "/es/" },
+    { label: "Sobre mí", href: "/es/about" },
+    { label: "Proyectos", href: "/es/work" },
+  ],
+};
+
+const items = navItems[locale];
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const switchHref = locale === "en" ? "/es/" : "/";
+const switchLabel = locale === "en" ? "ES" : "EN";
+const switchAriaLabel = locale === "en" ? "Cambiar a español" : "Switch to English";
 ---
 
 <header
@@ -16,7 +34,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
   >
     <a
-      href="/"
+      href={locale === "en" ? "/" : "/es/"}
       class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-ink uppercase transition-colors hover:text-accent"
     >
       <!--
@@ -30,7 +48,7 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
     <nav aria-label="Main">
       <ul class="flex items-center gap-1 sm:gap-2">
         {
-          navItems.map((item) => {
+          items.map((item) => {
             const isCurrent = currentPath === item.href;
 
             return (
@@ -51,6 +69,15 @@ const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
             );
           })
         }
+        <li>
+          <a
+            href={switchHref}
+            aria-label={switchAriaLabel}
+            class="ml-1 rounded-md border border-line px-2 py-1.5 text-xs font-medium text-ink transition-colors hover:bg-paper sm:px-2.5"
+          >
+            {switchLabel}
+          </a>
+        </li>
       </ul>
     </nav>
   </div>

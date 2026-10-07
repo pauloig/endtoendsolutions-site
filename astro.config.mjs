@@ -8,6 +8,13 @@ export default defineConfig({
   site: "https://endtoendsolutions.dev",
   output: "static",
   trailingSlash: "ignore",
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "es"],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   integrations: [react()],
   vite: {
     plugins: [tailwindcss()],

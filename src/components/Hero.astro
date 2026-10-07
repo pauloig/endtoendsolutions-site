@@ -7,6 +7,37 @@
  * and scales in steps: paddings, heading size and button labels shrink below
  * 360px and 640px of width.
  */
+
+interface Props {
+  locale?: "en" | "es";
+}
+
+const { locale = "en" } = Astro.props;
+
+const content = {
+  en: {
+    tagline: "Senior technical partner",
+    headline:
+      "A senior technical partner who can embed as a developer, lead architecture decisions, or scale into a small team when the project needs it.",
+    subheadline:
+      "Hands-on engineering and architecture for teams that need a senior perspective without committing to a permanent hire.",
+    ctaPrimaryShort: "Let's talk",
+    ctaPrimaryLong: "Start a conversation",
+    ctaSecondary: "View services",
+  },
+  es: {
+    tagline: "Socio técnico senior",
+    headline:
+      "Un socio técnico senior que puede integrarse como desarrollador, liderar decisiones de arquitectura o escalar a un pequeño equipo cuando el proyecto lo necesita.",
+    subheadline:
+      "Ingeniería práctica y arquitectura para equipos que necesitan una visión senior sin comprometerse a una contratación fija.",
+    ctaPrimaryShort: "Hablemos",
+    ctaPrimaryLong: "Iniciar conversación",
+    ctaSecondary: "Ver servicios",
+  },
+};
+
+const c = content[locale];
 ---
 
 <section class="border-b border-line bg-surface">
@@ -16,23 +47,21 @@
     >
       <span aria-hidden="true" class="h-px w-6 bg-accent"></span>
       <!-- [PLACEHOLDER: etiqueta de posicionamiento definitiva] -->
-      Senior technical partner
+      {c.tagline}
     </p>
 
     <h1
       class="mt-3 max-w-3xl text-2xl leading-[1.12] font-semibold tracking-tight text-ink text-balance min-[360px]:mt-4 min-[360px]:text-3xl sm:text-4xl lg:text-5xl"
     >
       <!-- [PLACEHOLDER: titular definitivo] -->
-      A senior technical partner who can embed as a developer, lead architecture
-      decisions, or scale into a small team when the project needs it.
+      {c.headline}
     </h1>
 
     <p
       class="mt-3 max-w-2xl text-[0.95rem] text-pretty text-muted min-[360px]:text-base sm:mt-4 sm:text-lg"
     >
       <!-- [PLACEHOLDER: two-line value proposition] -->
-      Hands-on engineering and architecture for teams that need a senior
-      perspective without committing to a permanent hire.
+      {c.subheadline}
     </p>
 
     <div
@@ -42,16 +71,15 @@
         href="#contact"
         class="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-accent-ink sm:px-5 sm:py-3"
       >
-        <span class="min-[360px]:hidden">Let's talk</span>
-        <span class="hidden min-[360px]:inline">Start a conversation</span>
+        <span class="min-[360px]:hidden">{c.ctaPrimaryShort}</span>
+        <span class="hidden min-[360px]:inline">{c.ctaPrimaryLong}</span>
         <span aria-hidden="true">→</span>
       </a>
       <a
         href="#services"
         class="inline-flex items-center justify-center rounded-md border border-line px-4 py-2.5 text-sm font-semibold text-ink transition-colors hover:bg-paper sm:px-5 sm:py-3"
       >
-        <span class="min-[360px]:hidden">Services</span>
-        <span class="hidden min-[360px]:inline">See how I can help</span>
+        {c.ctaSecondary}
       </a>
     </div>
   </div>

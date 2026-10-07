@@ -15,6 +15,8 @@ interface Props {
   ogImageAlt?: string;
   /** Adds `noindex, nofollow` (useful for 404 and private pages). */
   noindex?: boolean;
+  /** Language of the page. */
+  lang?: "en" | "es";
 }
 
 const {
@@ -23,6 +25,7 @@ const {
   ogImage = "/og-image.png",
   ogImageAlt = `${SITE_NAME} — senior technical partner for web products`,
   noindex = false,
+  lang = "en",
 } = Astro.props;
 
 const fullTitle = title.includes(SITE_NAME) ? title : `${title} · ${SITE_NAME}`;
@@ -30,10 +33,14 @@ const fullTitle = title.includes(SITE_NAME) ? title : `${title} · ${SITE_NAME}`
 const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin);
 const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
+
+const hreflangEn = new URL(lang === "en" ? Astro.url.pathname : "/", Astro.site ?? Astro.url.origin);
+const hreflangEs = new URL(lang === "es" ? Astro.url.pathname : "/es/", Astro.site ?? Astro.url.origin);
+const hreflangXDefault = new URL("/", Astro.site ?? Astro.url.origin);
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -41,6 +48,9 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={hreflangEn} />
+    <link rel="alternate" hreflang="es" href={hreflangEs} />
+    <link rel="alternate" hreflang="x-default" href={hreflangXDefault} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="alternate icon" href="/favicon.ico" sizes="48x48" />
     <meta name="generator" content={Astro.generator} />
@@ -52,7 +62,7 @@ const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
-    <meta property="og:locale" content="en" />
+    <meta property="og:locale" content={lang} />
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:image:type" content="image/png" />

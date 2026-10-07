@@ -6,51 +6,94 @@ interface Service {
   secondary?: boolean;
 }
 
-// [PLACEHOLDER: final copy for each service]
-const services: Service[] = [
-  {
-    title: "Full-stack development",
-    description:
-      "Feature work and product iteration end to end, from data model to interface, in the stack your project already uses.",
+interface Props {
+  locale?: "en" | "es";
+}
+
+const { locale = "en" } = Astro.props;
+
+const content = {
+  en: {
+    heading: "How I can help",
+    intro: "Engagements start where the risk is highest and end when it is paid off.",
+    services: [
+      {
+        title: "Full-stack development",
+        description:
+          "Feature work and product iteration end to end, from data model to interface, in the stack your project already uses.",
+      },
+      {
+        title: "Technical architecture & system design",
+        description:
+          "Decisions that hold up as the product grows: boundaries, data flows, integrations and a pragmatic migration path.",
+      },
+      {
+        title: "Fractional / interim technical leadership",
+        description:
+          "Direction, reviews and mentoring for teams that need senior judgement without a full-time senior hire.",
+      },
+      {
+        title: "Code & architecture review",
+        description:
+          "An outside read on an existing codebase or proposal: risks, shortcuts and the changes worth making now.",
+      },
+      {
+        title: "Team augmentation",
+        secondary: true,
+        description:
+          "Extra senior capacity for a sprint or a launch window, working inside your team's rituals and tooling.",
+      },
+    ],
   },
-  {
-    title: "Technical architecture & system design",
-    description:
-      "Decisions that hold up as the product grows: boundaries, data flows, integrations and a pragmatic migration path.",
+  es: {
+    heading: "Cómo puedo ayudarte",
+    intro: "Los proyectos empiezan donde el riesgo es mayor y terminan cuando ese riesgo está mitigado.",
+    services: [
+      {
+        title: "Desarrollo full-stack",
+        description:
+          "Desarrollo e iteración de funcionalidades de principio a fin, desde el modelo de datos hasta la interfaz, usando el stack que ya utiliza tu proyecto.",
+      },
+      {
+        title: "Arquitectura técnica y diseño de sistemas",
+        description:
+          "Decisiones sólidas que escalan con el producto: límites, flujos de datos, integraciones y un plan de migración pragmático.",
+      },
+      {
+        title: "Liderazgo técnico parcial o interino",
+        description:
+          "Dirección, revisiones y mentoría para equipos que necesitan criterio senior sin contratar a tiempo completo.",
+      },
+      {
+        title: "Revisión de código y arquitectura",
+        description:
+          "Una revisión externa de tu base de código o propuesta: riesgos, atajos y qué cambios vale la pena hacer ahora.",
+      },
+      {
+        title: "Ampliación de equipo",
+        secondary: true,
+        description:
+          "Capacidad senior adicional para un sprint o un lanzamiento, integrándome con los rituales y herramientas de tu equipo.",
+      },
+    ],
   },
-  {
-    title: "Fractional / interim technical leadership",
-    description:
-      "Direction, reviews and mentoring for teams that need senior judgement without a full-time senior hire.",
-  },
-  {
-    title: "Code & architecture review",
-    description:
-      "An outside read on an existing codebase or proposal: risks, shortcuts and the changes worth making now.",
-  },
-  {
-    title: "Team augmentation",
-    secondary: true,
-    description:
-      "Extra senior capacity for a sprint or a launch window, working inside your team's rituals and tooling.",
-  },
-];
+};
+
+const c = content[locale];
 ---
 
 <section id="services" class="scroll-mt-16 border-b border-line">
   <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
     <h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-      <!-- [PLACEHOLDER: services section heading] -->
-      How I can help
+      {c.heading}
     </h2>
     <p class="mt-2 max-w-2xl text-muted">
-      <!-- [PLACEHOLDER: short intro for the services section] -->
-      Engagements start where the risk is highest and end when it is paid off.
+      {c.intro}
     </p>
 
     <ul class="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
       {
-        services.map((service) => (
+        c.services.map((service) => (
           <li
             class:list={[
               "rounded-lg border p-5",
