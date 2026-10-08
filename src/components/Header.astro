@@ -36,13 +36,10 @@ const switchAriaLabel = locale === "en" ? "Cambiar a español" : "Switch to Engl
     <a
       href={locale === "en" ? "/" : "/es/"}
       class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-ink uppercase transition-colors hover:text-accent"
+      aria-label="End to End Solutions"
     >
-      <!--
-        [PLACEHOLDER: real logo. Provisional text instead of an image, so it
-        does not need alternative text.]
-      -->
-      <span aria-hidden="true" class="font-mono text-accent">//</span>
-      End to End Solutions
+      <img src="/header-icon.png" alt="End to End Solutions" class="h-6 w-auto" width="24" height="24" />
+      <span>End to End Solutions</span>
     </a>
 
     <nav aria-label="Main">
