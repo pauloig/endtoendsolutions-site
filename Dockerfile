@@ -20,10 +20,12 @@ COPY astro.config.mjs tsconfig.json ./
 COPY src ./src
 COPY public ./public
 
-# Astro inlines PUBLIC_* variables into the bundle at build time, so the GA4
-# Measurement ID has to be passed as a build ARG (not at runtime).
+# Astro inlines PUBLIC_* variables into the bundle at build time, so public
+# variables must be available during `npm run build` in the Docker image.
 ARG PUBLIC_GA_MEASUREMENT_ID=""
 ENV PUBLIC_GA_MEASUREMENT_ID=$PUBLIC_GA_MEASUREMENT_ID
+ARG PUBLIC_WEB3FORMS_ACCESS_KEY=""
+ENV PUBLIC_WEB3FORMS_ACCESS_KEY=$PUBLIC_WEB3FORMS_ACCESS_KEY
 
 RUN pnpm build
 

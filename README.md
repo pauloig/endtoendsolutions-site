@@ -6,7 +6,7 @@ developer, lead architecture decisions, or scale into a small team when the
 project needs it.*
 
 > **Status: scaffold.** Every piece of copy marked `[PLACEHOLDER: ...]` still
-> needs real content, and the contact form has no backend yet. Only the Home
+> needs real content. Only the Home
 > page exists.
 
 ## Stack
@@ -60,7 +60,7 @@ Requires Node `>=22.12` and pnpm.
 
 ```sh
 pnpm install
-cp .env.example .env   # opcional: define PUBLIC_GA_MEASUREMENT_ID
+cp .env.example .env   # opcional: define PUBLIC_GA_MEASUREMENT_ID y/o PUBLIC_WEB3FORMS_ACCESS_KEY
 pnpm dev               # http://localhost:4321
 ```
 
@@ -111,8 +111,8 @@ docker compose -f docker-compose.prod.yml up --build
 Notes:
 
 - No database: the site is fully static.
-- `PUBLIC_GA_MEASUREMENT_ID` is passed as a **build arg**, so changing it
-  requires `--build`.
+- `PUBLIC_GA_MEASUREMENT_ID` and `PUBLIC_WEB3FORMS_ACCESS_KEY` are passed as
+  **build args**, so changing them requires `--build`.
 - The app container serves `dist/404.html` with a real `404` status.
 
 ## Placeholders to replace
@@ -125,7 +125,6 @@ Notes:
   `og:image` URLs.
 - Logo (currently the text "End to End Solutions") in `Header.astro`, plus
   `public/favicon.svg`, `favicon.ico` and `og-image.png`.
-- Contact form backend (`ContactForm.tsx` currently simulates a send).
 - Real `About` and `Work` pages — the header links point at routes that do not
   exist yet and land on the 404 page.
 - Legal review of `privacy-policy.astro`.

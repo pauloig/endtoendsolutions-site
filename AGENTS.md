@@ -35,8 +35,9 @@ There is no CI and no pre-commit config in this repo.
 
 Astro inlines `PUBLIC_*` into the bundle during `pnpm build`. Consequences:
 
-- `PUBLIC_GA_MEASUREMENT_ID` is a Docker **build ARG** (`docker-compose.prod.yml`
-  → `build.args`), not a runtime env var. Changing it requires `--build`.
+- `PUBLIC_GA_MEASUREMENT_ID` and `PUBLIC_WEB3FORMS_ACCESS_KEY` are Docker
+  **build ARGs** (`docker-compose.prod.yml` → `build.args`), not runtime env
+  vars. Changing them requires `--build`.
 - `site` in `astro.config.mjs` drives canonical URLs and absolute `og:image`
   URLs. Change it when deploying to another domain, otherwise social cards
   point at the wrong host.
@@ -78,8 +79,10 @@ one bug that must not ship.
 - The hero has a hard constraint: **the CTA must stay above the fold at
   320×568**. Verified by measuring `getBoundingClientRect()`; re-check it if you
   lengthen the headline or sub-copy.
-- `ContactForm` is `client:visible`, so it does not hydrate until scrolled into
-  view — browser tests must scroll to `#contact` first.
+- `ContactForm` is `client:visible`, posts to Web3Forms with honeypot; if the
+  access key is missing at build time, it shows a mailto fallback. It does not
+  hydrate until scrolled into view — browser tests must scroll to `#contact`
+  first.
 - Everything except the form is `.astro` with no framework JS. Keep it that way.
 - `Header` links for About/Work intentionally point at routes that don't exist
   (they land on the 404 page).
