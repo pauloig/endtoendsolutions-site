@@ -125,6 +125,6 @@ Notes:
   `og:image` URLs.
 - Logo (currently the text "End to End Solutions") in `Header.astro`, plus
   `public/favicon.svg`, `favicon.ico` and `og-image.png`.
-- Real `About` and `Work` pages — the header links point at routes that do not
-  exist yet and land on the 404 page.
+- About exists in both locales (`/about`, `/es/about`). Only Work still points
+  at a missing route (lands on the 404 page).
 - Legal review of `privacy-policy.astro`.

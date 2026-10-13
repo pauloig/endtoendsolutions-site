@@ -84,8 +84,8 @@ one bug that must not ship.
   hydrate until scrolled into view — browser tests must scroll to `#contact`
   first.
 - Everything except the form is `.astro` with no framework JS. Keep it that way.
-- `Header` links for About/Work intentionally point at routes that don't exist
-  (they land on the 404 page).
+- `Header` links: About exists in both locales (`/about`, `/es/about`). Work
+  intentionally points at a route that doesn't exist (lands on the 404 page).
 - `public/og-image.png` (1200×630) and `favicon.ico` are generated placeholders,
   not hand-drawn art; replace all three brand assets together.
 - Styling tokens are CSS-first Tailwind v4 (`@theme` in `src/styles/global.css`);

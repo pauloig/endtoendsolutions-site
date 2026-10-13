@@ -34,8 +34,15 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
 const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin);
 const gaMeasurementId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID;
 
-const hreflangEn = new URL(lang === "en" ? Astro.url.pathname : "/", Astro.site ?? Astro.url.origin);
-const hreflangEs = new URL(lang === "es" ? Astro.url.pathname : "/es/", Astro.site ?? Astro.url.origin);
+const pathname = Astro.url.pathname;
+const hreflangEn = new URL(
+  lang === "en" ? pathname : (pathname.startsWith("/es/") ? pathname.replace(/^\/es\//, "/") : "/"),
+  Astro.site ?? Astro.url.origin
+);
+const hreflangEs = new URL(
+  lang === "es" ? pathname : (pathname === "/" ? "/es/" : `/es${pathname}`),
+  Astro.site ?? Astro.url.origin
+);
 const hreflangXDefault = new URL("/", Astro.site ?? Astro.url.origin);
 ---
 

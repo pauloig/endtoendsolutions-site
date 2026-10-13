@@ -22,7 +22,16 @@ const navItems = {
 
 const items = navItems[locale];
 const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
-const switchHref = locale === "en" ? "/es/" : "/";
+const switchHref =
+  locale === "en"
+    ? currentPath === "/"
+      ? "/es/"
+      : currentPath.startsWith("/es/")
+        ? currentPath
+        : `/es${currentPath}`
+    : currentPath.startsWith("/es/")
+      ? currentPath.replace(/^\/es/, "") || "/"
+      : currentPath;
 const switchLabel = locale === "en" ? "ES" : "EN";
 const switchAriaLabel = locale === "en" ? "Cambiar a español" : "Switch to English";
 ---

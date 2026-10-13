@@ -1,0 +1,76 @@
+---
+import Footer from "../components/Footer.astro";
+import Header from "../components/Header.astro";
+import BaseLayout from "../layouts/BaseLayout.astro";
+
+const title = "About Paulo Ismalej | End to End Solutions";
+const description =
+  "Senior full-stack engineer and architect with 20 years of experience. I take projects from requirements to a deployed, documented solution.";
+const contactHref = "/#contact";
+---
+
+<BaseLayout title={title} description={description}>
+  <Header locale="en" />
+
+  <main id="main" class="mx-auto w-full max-w-3xl flex-1 px-4 py-14 sm:px-6 sm:py-20">
+    <article class="prose prose-neutral max-w-none">
+      <h1 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
+        I'm Paulo Ismalej.
+      </h1>
+
+      <p class="mt-4 text-[0.975rem] leading-relaxed text-muted">
+        I'm a senior full-stack engineer and software architect based in Guatemala City. For twenty years I've built and run software for banks, government agencies and growing businesses. Since 2022 I've done it as an independent technical partner, under End to End Solutions.
+      </p>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-semibold tracking-tight text-ink">What I do</h2>
+        <p class="mt-3 text-[0.975rem] leading-relaxed text-muted">
+          I take a problem from the first conversation to a running, documented system: understanding the requirement, making the architecture decisions, building it, deploying it and supporting it afterwards. Depending on what the project needs, I join as a hands-on developer, as the architect or tech lead, or as the person who owns the whole build.
+        </p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-semibold tracking-tight text-ink">Background</h2>
+        <p class="mt-3 text-[0.975rem] leading-relaxed text-muted">
+          I started in 2005 writing business applications and database code, then moved through enterprise .NET, Python and modern JavaScript stacks, plus AWS and containers. Along the way I led a development team on a national government platform deployed across hundreds of branches, led a core banking database migration planned for zero downtime, built the APIs behind a multi-merchant payments integration across Latin America, and took three enterprise systems from zero to production for international clients.
+        </p>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-semibold tracking-tight text-ink">How I work</h2>
+        <ul class="mt-3 space-y-3 text-[0.975rem] leading-relaxed text-muted">
+          <li>
+            <strong class="text-ink">Decisions first.</strong> I spend my time on analysis, architecture and trade-offs, and I write them down, so you always know why something was built the way it was.
+          </li>
+          <li>
+            <strong class="text-ink">Small, verifiable steps.</strong> Every piece of work has a clear acceptance criterion. Progress is something you can check, not something you have to trust.
+          </li>
+          <li>
+            <strong class="text-ink">Honest about tools.</strong> I use modern tools, including AI assistants, to speed up routine implementation, and I stay accountable for every decision and every line that ships.
+          </li>
+          <li>
+            <strong class="text-ink">Plain communication.</strong> You get clear options and a recommendation, not jargon.
+          </li>
+        </ul>
+      </section>
+
+      <section class="mt-10">
+        <h2 class="text-xl font-semibold tracking-tight text-ink">Beyond work</h2>
+        <p class="mt-3 text-[0.975rem] leading-relaxed text-muted">
+          Learning is something I enjoy for its own sake, not only because it serves my work. I explore new technologies and methodologies, and I'm most drawn to areas where I have no experience yet. Over the last few months I've been integrating AI into my workflows and applying spec-driven development.
+        </p>
+      </section>
+
+      <section class="mt-12">
+        <p class="text-[0.975rem] leading-relaxed text-muted">
+          Have a project in mind? Tell me what you're building and what's in the way.{" "}
+          <a href={contactHref} class="font-medium text-accent underline underline-offset-2 hover:text-accent-ink">
+            Let's talk.
+          </a>
+        </p>
+      </section>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
