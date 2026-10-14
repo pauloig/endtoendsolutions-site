@@ -34,6 +34,10 @@ const switchHref =
       : currentPath;
 const switchLabel = locale === "en" ? "ES" : "EN";
 const switchAriaLabel = locale === "en" ? "Cambiar a español" : "Switch to English";
+const themeLabels =
+  locale === "en"
+    ? { toDark: "Switch to dark theme", toLight: "Switch to light theme" }
+    : { toDark: "Cambiar a tema oscuro", toLight: "Cambiar a tema claro" };
 ---
 
 <header
@@ -44,11 +48,14 @@ const switchAriaLabel = locale === "en" ? "Cambiar a español" : "Switch to Engl
   >
     <a
       href={locale === "en" ? "/" : "/es/"}
-      class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] text-ink uppercase transition-colors hover:text-accent"
+      class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] uppercase transition-colors"
       aria-label="End to End Solutions"
     >
       <img src="/header-icon.png" alt="End to End Solutions" class="h-6 w-auto" width="24" height="24" />
-      <span>End to End Solutions</span>
+      <span class="theme-toggle-wordmark">
+        <span class="text-wordmark-primary">End to End</span>{" "}
+        <span class="text-wordmark-secondary">Solutions</span>
+      </span>
     </a>
 
     <nav aria-label="Main">
@@ -86,7 +93,85 @@ const switchAriaLabel = locale === "en" ? "Cambiar a español" : "Switch to Engl
             {switchLabel}
           </a>
         </li>
+        <li>
+          <button
+            type="button"
+            id="theme-toggle"
+            aria-pressed="false"
+            aria-label={themeLabels.toDark}
+            data-label-to-dark={themeLabels.toDark}
+            data-label-to-light={themeLabels.toLight}
+            class="ml-1 inline-flex h-8 w-8 items-center justify-center rounded-md border border-line text-ink transition-colors hover:bg-paper"
+          >
+            <svg
+              class="icon-moon"
+              aria-hidden="true"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+            <svg
+              class="icon-sun"
+              aria-hidden="true"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="4"></circle>
+              <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path>
+            </svg>
+          </button>
+        </li>
       </ul>
     </nav>
   </div>
 </header>
+
+<script>
+  function effectiveTheme(): "light" | "dark" {
+    const attr = document.documentElement.getAttribute("data-theme");
+    if (attr === "dark" || attr === "light") return attr;
+    return window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  }
+
+  function setupThemeToggle() {
+    const button = document.getElementById("theme-toggle");
+    if (!(button instanceof HTMLButtonElement)) return;
+
+    const sync = () => {
+      const isDark = effectiveTheme() === "dark";
+      button.setAttribute("aria-pressed", String(isDark));
+      const label = isDark
+        ? button.dataset.labelToLight
+        : button.dataset.labelToDark;
+      if (label) button.setAttribute("aria-label", label);
+    };
+
+    button.addEventListener("click", () => {
+      const next = effectiveTheme() === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem("e2e_theme", next);
+      } catch (e) {}
+      sync();
+    });
+
+    sync();
+  }
+
+  setupThemeToggle();
+</script>

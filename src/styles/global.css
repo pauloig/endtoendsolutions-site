@@ -1,19 +1,94 @@
 @import "tailwindcss";
 
+/* Self-hosted variable fonts, Latin subset only (covers Spanish accents,
+   ñ and inverted punctuation marks). font-display: swap avoids invisible
+   text while the files download. */
+@font-face {
+  font-family: "Sora Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 800;
+  src: url("@fontsource-variable/sora/files/sora-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: "Inter Variable";
+  font-style: normal;
+  font-display: swap;
+  font-weight: 100 900;
+  src: url("@fontsource-variable/inter/files/inter-latin-wght-normal.woff2")
+    format("woff2-variations");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191,
+    U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
 @theme {
+  /* Light (default) */
   --color-paper: #f4f3ef;
   --color-surface: #ffffff;
-  --color-ink: #14161b;
-  --color-muted: #575d68;
-  --color-line: #e1dfd9;
-  --color-accent: #14503c;
-  --color-accent-ink: #0d3729;
-  --color-accent-soft: #e7efe9;
+  --color-ink: #111827;
+  --color-muted: #4b5563;
+  --color-line: #e2e0d8;
+  --color-accent: #5926ab;
+  --color-accent-ink: #3f1a7a;
+  --color-accent-soft: #e7e2f8;
 
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
+  /* Brand (same in both themes) */
+  --color-brand-violet: #8127fb;
+  --color-brand-violet-ink: #6d1fd6;
+  --color-brand-cyan: #41c6ed;
+  --color-brand-blue: #2a80bb;
+
+  /* Wordmark */
+  --color-wordmark-primary: #5926ab;
+  --color-wordmark-secondary: #2a80bb;
+
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: "Sora Variable", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
     "Liberation Mono", monospace;
+}
+
+:root {
+  /* Gradient: cyan -> violet at 135deg (logo mark + thin accent only) */
+  --brand-gradient: linear-gradient(135deg, #41c6ed 0%, #8127fb 100%);
+}
+
+:root[data-theme="dark"] {
+  --color-paper: #0e1020;
+  --color-surface: #171a2e;
+  --color-ink: #f3f4f8;
+  --color-muted: #b4b8cc;
+  --color-line: #2a2e48;
+  --color-accent: #41c6ed;
+  --color-accent-ink: #7ad9f5;
+  --color-accent-soft: #1d2040;
+
+  --color-wordmark-primary: #ffffff;
+  --color-wordmark-secondary: #41c6ed;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-paper: #0e1020;
+    --color-surface: #171a2e;
+    --color-ink: #f3f4f8;
+    --color-muted: #b4b8cc;
+    --color-line: #2a2e48;
+    --color-accent: #41c6ed;
+    --color-accent-ink: #7ad9f5;
+    --color-accent-soft: #1d2040;
+
+    --color-wordmark-primary: #ffffff;
+    --color-wordmark-secondary: #41c6ed;
+  }
 }
 
 @layer base {
@@ -30,6 +105,15 @@
     -webkit-font-smoothing: antialiased;
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-heading);
+  }
+
   :focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 2px;
@@ -37,7 +121,39 @@
 
   ::selection {
     background-color: var(--color-accent-soft);
-    color: var(--color-accent-ink);
+    color: var(--color-ink);
+  }
+}
+
+@layer utilities {
+  .bg-brand-gradient {
+    background-image: var(--brand-gradient);
+  }
+}
+
+@layer components {
+  /* Theme toggle icons: show the icon of the theme you would switch to. */
+  #theme-toggle .icon-sun {
+    display: none;
+  }
+  #theme-toggle .icon-moon {
+    display: block;
+  }
+
+  :root[data-theme="dark"] #theme-toggle .icon-sun {
+    display: block;
+  }
+  :root[data-theme="dark"] #theme-toggle .icon-moon {
+    display: none;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) #theme-toggle .icon-sun {
+      display: block;
+    }
+    :root:not([data-theme]) #theme-toggle .icon-moon {
+      display: none;
+    }
   }
 }
 
@@ -52,5 +168,6 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

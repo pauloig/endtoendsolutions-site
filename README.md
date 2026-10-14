@@ -48,7 +48,7 @@ project needs it.*
 │   │   ├── index.astro
 │   │   └── privacy-policy.astro
 │   └── styles/
-│       └── global.css      # design tokens + Tailwind
+│       └── global.css      # theme tokens, fonts, Tailwind
 ├── Dockerfile
 ├── docker-compose.prod.yml
 └── astro.config.mjs
@@ -89,6 +89,34 @@ The Measurement ID comes from `PUBLIC_GA_MEASUREMENT_ID`. Astro inlines
 `PUBLIC_*` variables at **build** time, so changing it requires a rebuild. If
 the variable is missing or malformed (`G-XXXXXXX`), the snippet stays inert and
 the site keeps working.
+
+## Design tokens and theming
+
+Styling is CSS-first Tailwind 4: all tokens live in `@theme` inside
+`src/styles/global.css`. **There is no `tailwind.config.js` — do not add one.**
+
+- **Semantic tokens** (`paper`, `surface`, `ink`, `muted`, `line`, `accent`)
+  resolve per theme. Light is the default; `:root[data-theme="dark"]` overrides
+  them, and `@media (prefers-color-scheme: dark)` applies them when no explicit
+  choice is stored.
+- **Brand tokens** (`brand-violet` `#8127fb`, `brand-cyan` `#41c6ed`,
+  `brand-blue` `#2a80bb`, plus `brand-violet-ink` for hover) are identical in
+  both themes. Buttons use `bg-brand-violet` with white text — never `accent`,
+  which flips to cyan in dark.
+- **Wordmark** colors come from `wordmark-primary` / `wordmark-secondary` and
+  are overridden per theme.
+- **Gradient** `--brand-gradient` (cyan → violet at 135°, exposed as
+  `bg-brand-gradient`) is reserved for the logo mark and the thin hero accent.
+
+Fonts are self-hosted through `@fontsource-variable/sora` (headings, 500/700)
+and `@fontsource-variable/inter` (body, 400/600), Latin subset only, with
+`font-display: swap`. The two `.woff2` files are preloaded in `BaseLayout.astro`.
+No request goes to Google Fonts or any CDN.
+
+The theme toggle in `Header.astro` sets `data-theme` on `<html>` and persists
+the choice in `localStorage["e2e_theme"]` (`"light"` | `"dark"`). A tiny inline
+script in the `BaseLayout.astro` `<head>` applies the stored value before first
+paint, so there is no flash. With no stored value, the OS preference wins.
 
 ## Docker
 

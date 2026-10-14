@@ -1,8 +1,9 @@
 # Project context — End to End Solutions marketing site
 
 Static marketing site. Astro 7 static output, Tailwind 4, one React island,
-nginx-served via Docker. **Scaffold state: no backend, no database, not
-deployed.** 5 routes (Home, About, 404, Privacy Policy). 885 LOC of source.
+nginx-served via Docker. **No backend, no database.** EN at `/`, ES at `/es/`
+(7 built pages: Home, About, 404, Privacy Policy in both locales). ~1.7k LOC of
+source.
 
 `CLAUDE.md` is a symlink to `AGENTS.md`. Deep toolchain/deployment gotchas
 live there; this file is the map.
@@ -40,19 +41,22 @@ astro build (pnpm build)  ──>  dist/            static, no runtime
 | `src/components/GoogleAnalytics.astro` | **Defines `window.__e2eLoadGA` only.** Injects no Google script. ID read from env and regex-validated (`src/lib/analytics.ts`). |
 | `src/components/CookieBanner.astro` | Consent UI. Ships `hidden`; JS reveals it only when no stored decision. Sole caller of `__e2eLoadGA`. |
 | `src/lib/analytics.ts` | Shared `CONSENT_STORAGE_KEY` + `isValidMeasurementId`. Single source for both analytics components. |
-| `src/components/ContactForm.tsx` | **Only React island** (`client:visible`). UI + simulated submit; no network call. |
+| `src/components/ContactForm.tsx` | **Only React island** (`client:visible`). Posts to Web3Forms; mailto fallback when the access key is missing at build time. |
 | `Hero.astro` | Positioning + CTA. **Above-the-fold constraint at 320×568.** |
 | `ServicesList.astro` | 5 services; `secondary` flag de-emphasises Team augmentation. |
-| `Header.astro` / `Footer.astro` | Nav (About/Work intentionally 404) and contact placeholders. |
-| `src/styles/global.css` | Tailwind 4 `@theme` tokens (`paper`/`ink`/`accent`). No `tailwind.config.js` — do not add one. |
+| `Header.astro` / `Footer.astro` | Nav: About exists in both locales, Work hidden until the page exists. Language switcher (path-preserving) + theme toggle. Footer holds contact details. |
+| `src/styles/global.css` | Tailwind 4 `@theme` tokens (`paper`/`surface`/`ink`/`muted`/`line`/`accent` + fixed `brand-*`/`wordmark-*`), self-hosted `@font-face`, gradient utility, theme-toggle CSS. No `tailwind.config.js` — do not add one. |
 
 ## Data & persistence
 
 - **No database and no migrations.** Nothing to migrate.
 - Only client-side state: `localStorage["e2e_analytics_consent"]` ∈
   `{granted, denied}`. Fail-open to "not measured" if storage is blocked.
-- Contact form collects name/email/message in component state and discards on
-  submit. **No message ever leaves the browser.**
+- `localStorage["e2e_theme"]` ∈ `{light, dark}` sets `data-theme` on `<html>`.
+  Absent → OS `prefers-color-scheme` decides. Applied inline in `<head>` before
+  first paint (no flash) and toggled in `Header.astro`.
+- Contact form posts name/email/message to Web3Forms (hidden honeypot). With no
+  access key at build time it renders a mailto fallback instead.
 
 ## Key user flows
 
@@ -60,7 +64,8 @@ astro build (pnpm build)  ──>  dist/            static, no runtime
 2. **Consent** → banner appears → Accept stores `granted` + injects GA4;
    Reject stores `denied` + never contacts Google. Later visits skip the banner.
 3. **Unknown URL** → nginx 404 (real status) → friendly 404 page → Home.
-4. **Submit form** → simulated "sent" state. No submission. **Flow incomplete.**
+4. **Submit form** → posts to Web3Forms and shows a sent state. With no access
+   key at build time, the form offers a mailto fallback instead.
 
 ## Gotchas that will bite
 
@@ -85,15 +90,26 @@ astro build (pnpm build)  ──>  dist/            static, no runtime
   are neither bundled nor type-checked.
 - `/privacy-policy` prose hardcodes the `e2e_analytics_consent` key; renaming
   the constant silently desyncs the legal text.
+- **Buttons must stay `bg-brand-violet` with white text.** `bg-accent` flips to
+  cyan in dark and puts white on cyan, failing contrast.
+- Fonts are self-hosted and preloaded in `BaseLayout.astro`; do not reintroduce
+  a Google Fonts / CDN `<link>`.
+- The no-flash theme script (`BaseLayout.astro`, `is:inline`) and the toggle
+  (`Header.astro`) share `localStorage["e2e_theme"]`; change the key in both.
 - `[PLACEHOLDER: ...]` markers are intentional deliverables — grep before
   "cleaning up".
 
-## Verified state (2026-10-04)
+## Verified state (2026-10-14)
 
-`pnpm check` clean · `pnpm build` 3 pages · Docker stack serves :80, 404 works
-with real status · 23/23 headless-Chrome checks incl. "GA4 makes zero network
-requests before consent" · hero CTA above fold at 320×568 / 375×667 / 390×844 /
-1440×900.
+`pnpm check` clean · `pnpm build` 7 pages · Docker stack serves :80, 404 works
+with real status · "GA4 makes zero network requests before consent" · hero CTA
+above fold at 320×568 and larger.
+
+Theme (checked via computed styles): `data-theme` toggles + persists in
+`localStorage["e2e_theme"]`, no flash (inline `<head>` script), wordmark and CTA
+colors correct in both themes, only self-hosted fonts requested (no Google
+Fonts), all text/background pairs meet WCAG AA (buttons = white on
+`#8127fb` = 5.81:1).
 
 Known: `pnpm audit` reports 1 high (`http-cache-semantics` ≤4.2.0 via astro,
 dev-server only, **absent from `dist/`**). No sitemap, no JSON-LD, no CSP.

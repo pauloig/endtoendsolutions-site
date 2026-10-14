@@ -2,6 +2,8 @@
 import CookieBanner from "../components/CookieBanner.astro";
 import GoogleAnalytics from "../components/GoogleAnalytics.astro";
 import { CONSENT_STORAGE_KEY, SITE_NAME } from "../lib/analytics";
+import soraWoff2 from "@fontsource-variable/sora/files/sora-latin-wght-normal.woff2?url";
+import interWoff2 from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import "../styles/global.css";
 
 interface Props {
@@ -50,10 +52,34 @@ const hreflangXDefault = new URL("/", Astro.site ?? Astro.url.origin);
 <html lang={lang}>
   <head>
     <meta charset="utf-8" />
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem("e2e_theme");
+          if (stored === "dark" || stored === "light") {
+            document.documentElement.setAttribute("data-theme", stored);
+          }
+        } catch (e) {}
+      })();
+    </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <link
+      rel="preload"
+      href={soraWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href={interWoff2}
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
     <link rel="canonical" href={canonicalUrl} />
     <link rel="alternate" hreflang="en" href={hreflangEn} />
     <link rel="alternate" hreflang="es" href={hreflangEs} />
@@ -91,7 +117,7 @@ const hreflangXDefault = new URL("/", Astro.site ?? Astro.url.origin);
   <body class="flex min-h-dvh flex-col">
     <a
       href="#main"
-      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-accent focus:px-4 focus:py-2 focus:text-sm font-medium text-white"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-brand-violet focus:px-4 focus:py-2 focus:text-sm font-medium text-white"
     >
       Skip to main content
     </a>

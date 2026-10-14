@@ -90,3 +90,13 @@ one bug that must not ship.
   not hand-drawn art; replace all three brand assets together.
 - Styling tokens are CSS-first Tailwind v4 (`@theme` in `src/styles/global.css`);
   there is no `tailwind.config.js` and adding one would be wrong.
+- Theme-aware tokens (`paper`/`surface`/`ink`/`muted`/`line`/`accent`) switch via
+  `:root[data-theme="dark"]` and a `prefers-color-scheme` fallback. `brand-*`
+  tokens are fixed in both themes; **buttons are always `bg-brand-violet` with
+  white text** — using `bg-accent` puts white on cyan in dark and fails contrast.
+- Fonts are self-hosted (`@fontsource-variable/sora` + `inter`, Latin subset) and
+  the two `.woff2` are preloaded in `BaseLayout.astro`. Do not reintroduce a
+  Google Fonts / CDN `<link>`.
+- The no-flash theme script in `BaseLayout.astro` (`<head>`, `is:inline`) and the
+  toggle in `Header.astro` share `localStorage["e2e_theme"]`; change the key in
+  both places together.

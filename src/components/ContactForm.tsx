@@ -250,7 +250,7 @@ export default function ContactForm() {
         <button
           type="submit"
           disabled={isDisabled}
-          className="inline-flex items-center justify-center rounded-md bg-accent px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-ink disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex items-center justify-center rounded-md bg-brand-violet px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-violet-ink disabled:cursor-not-allowed disabled:opacity-60"
         >
           {status === "sending" ? messages.sending : status === "success" ? messages.sent : messages.send}
         </button>
