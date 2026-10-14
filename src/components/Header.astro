@@ -10,13 +10,13 @@ const navItems = {
     // [PLACEHOLDER: final links; About and Work do not have a page yet]
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Work", href: "/work" },
+    { label: "Work", href: "/work", hidden: true },
   ],
   es: [
     // [PLACEHOLDER: enlaces definitivos; About y Work aún no tienen página]
     { label: "Inicio", href: "/es/" },
     { label: "Sobre mí", href: "/es/about" },
-    { label: "Proyectos", href: "/es/work" },
+    { label: "Proyectos", href: "/es/work", hidden: true },
   ],
 };
 
@@ -54,26 +54,28 @@ const switchAriaLabel = locale === "en" ? "Cambiar a español" : "Switch to Engl
     <nav aria-label="Main">
       <ul class="flex items-center gap-1 sm:gap-2">
         {
-          items.map((item) => {
-            const isCurrent = currentPath === item.href;
+          items
+            .filter((item) => !("hidden" in item && item.hidden))
+            .map((item) => {
+              const isCurrent = currentPath === item.href;
 
-            return (
-              <li>
-                <a
-                  href={item.href}
-                  aria-current={isCurrent ? "page" : undefined}
-                  class:list={[
-                    "rounded-md px-2 py-1.5 text-sm transition-colors sm:px-3",
-                    isCurrent
-                      ? "font-semibold text-ink"
-                      : "text-muted hover:text-ink",
-                  ]}
-                >
-                  {item.label}
-                </a>
-              </li>
-            );
-          })
+              return (
+                <li>
+                  <a
+                    href={item.href}
+                    aria-current={isCurrent ? "page" : undefined}
+                    class:list={[
+                      "rounded-md px-2 py-1.5 text-sm transition-colors sm:px-3",
+                      isCurrent
+                        ? "font-semibold text-ink"
+                        : "text-muted hover:text-ink",
+                    ]}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              );
+            })
         }
         <li>
           <a
