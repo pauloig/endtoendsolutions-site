@@ -24,7 +24,7 @@ const { consentKey } = Astro.props;
   aria-describedby="cookie-banner-description"
   class="fixed inset-x-0 bottom-0 z-40 p-3 sm:p-4"
 >
-  <div class="mx-auto flex max-w-3xl flex-col gap-4 rounded-xl border border-line bg-surface p-4 shadow-lg shadow-black/5 sm:flex-row sm:items-center sm:p-5">
+  <div class="mx-auto flex max-h-[85dvh] w-full max-w-3xl flex-col gap-4 overflow-y-auto rounded-xl border border-line bg-surface p-4 shadow-lg shadow-black/5 sm:flex-row sm:items-center sm:p-5">
     <div class="flex-1">
       <h2 id="cookie-banner-title" class="text-sm font-semibold text-ink">
         Cookies and analytics
@@ -45,7 +45,7 @@ const { consentKey } = Astro.props;
       <button
         type="button"
         data-consent-choice="denied"
-        class="flex-1 rounded-md border border-line px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-paper sm:flex-none"
+        class="flex-1 rounded-md border border-line px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-paper focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:flex-none"
       >
         Reject
       </button>
@@ -53,7 +53,7 @@ const { consentKey } = Astro.props;
         id="cookie-banner-accept"
         type="button"
         data-consent-choice="granted"
-        class="flex-1 rounded-md bg-brand-violet px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-violet-ink sm:flex-none"
+        class="flex-1 rounded-md bg-brand-violet px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-violet-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:min-w-[6rem] sm:flex-none"
       >
         Accept
       </button>

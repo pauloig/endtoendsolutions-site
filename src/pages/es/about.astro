@@ -1,78 +1,88 @@
 ---
 import Container from "../../components/Container.astro";
 import Footer from "../../components/Footer.astro";
+import GradientBand from "../../components/GradientBand.astro";
 import Header from "../../components/Header.astro";
+import Heading from "../../components/Heading.astro";
+import ListRow from "../../components/ListRow.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const title = "Sobre Paulo Ismalej | End to End Solutions";
 const description =
   "Ingeniero full-stack y arquitecto de software con 20 años de experiencia. Llevo proyectos desde los requerimientos hasta una solución desplegada y documentada.";
-const contactHref = "/es/#contact";
+
+const howIWork = [
+  {
+    title: "Primero las decisiones.",
+    body: "Dedico mi tiempo al análisis, la arquitectura y los compromisos entre opciones, y los dejo por escrito, para que siempre sepa por qué algo se construyó de cierta manera.",
+  },
+  {
+    title: "Pasos pequeños y verificables.",
+    body: "Cada entrega tiene un criterio de aceptación claro. El avance es algo que usted puede comprobar, no algo en lo que tiene que confiar.",
+  },
+  {
+    title: "Honestidad con las herramientas.",
+    body: "Uso herramientas modernas, incluidos asistentes de IA, para acelerar la implementación rutinaria, y sigo siendo responsable de cada decisión y de cada línea que se entrega.",
+  },
+  {
+    title: "Comunicación clara.",
+    body: "Recibe opciones claras y una recomendación.",
+  },
+];
 ---
 
 <BaseLayout title={title} description={description} lang="es">
   <Header locale="es" />
 
   <main id="main" class="flex-1">
-    <Container class="py-14 sm:py-20">
-      <article class="prose prose-neutral max-w-3xl">
-        <h1 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Soy Paulo Ismalej.
-        </h1>
+    <Container class="py-14 sm:py-16">
+      <article class="max-w-[65ch]">
+        <Heading as="h1" size="display">Soy Paulo Ismalej.</Heading>
 
-        <p class="mt-4 text-[0.975rem] leading-relaxed text-muted">
+        <p class="mt-4 leading-relaxed text-muted">
           Soy ingeniero full-stack y arquitecto de software, y trabajo desde la Ciudad de Guatemala. Durante veinte años he construido y operado software para bancos, instituciones de gobierno y empresas en crecimiento. Desde 2022 lo hago de forma independiente, como socio técnico, con End to End Solutions.
         </p>
 
         <section class="mt-10">
-          <h2 class="text-xl font-semibold tracking-tight text-ink">Qué hago</h2>
-          <p class="mt-3 text-[0.975rem] leading-relaxed text-muted">
+          <Heading as="h2" size="subheading">Qué hago</Heading>
+          <p class="mt-3 leading-relaxed text-muted">
             Llevo un problema desde la primera conversación hasta un sistema funcionando y documentado: entender el requerimiento, tomar las decisiones de arquitectura, construirlo, desplegarlo y darle soporte después. Según lo que necesite el proyecto, me integro como desarrollador, como arquitecto o líder técnico, o como la persona que se hace responsable de toda la construcción.
           </p>
         </section>
 
         <section class="mt-10">
-          <h2 class="text-xl font-semibold tracking-tight text-ink">Trayectoria</h2>
-          <p class="mt-3 text-[0.975rem] leading-relaxed text-muted">
+          <Heading as="h2" size="subheading">Trayectoria</Heading>
+          <p class="mt-3 leading-relaxed text-muted">
             Empecé en 2005 escribiendo aplicaciones de negocio y código de bases de datos, y pasé por .NET empresarial, Python y stacks modernos de JavaScript, además de AWS y contenedores. En el camino lideré un equipo de desarrollo en una plataforma nacional de gobierno desplegada en cientos de sedes, dirigí la migración de la base de datos de un core bancario planeada sin tiempo de inactividad, construí las APIs de una integración de pagos multi-comercio en América Latina y llevé tres sistemas empresariales de cero a producción para clientes internacionales.
           </p>
         </section>
 
         <section class="mt-10">
-          <h2 class="text-xl font-semibold tracking-tight text-ink">Cómo trabajo</h2>
-          <ul class="mt-3 space-y-3 text-[0.975rem] leading-relaxed text-muted">
-            <li>
-              <strong class="text-ink">Primero las decisiones.</strong> Dedico mi tiempo al análisis, la arquitectura y los compromisos entre opciones, y los dejo por escrito, para que siempre sepa por qué algo se construyó de cierta manera.
-            </li>
-            <li>
-              <strong class="text-ink">Pasos pequeños y verificables.</strong> Cada entrega tiene un criterio de aceptación claro. El avance es algo que usted puede comprobar, no algo en lo que tiene que confiar.
-            </li>
-            <li>
-              <strong class="text-ink">Honestidad con las herramientas.</strong> Uso herramientas modernas, incluidos asistentes de IA, para acelerar la implementación rutinaria, y sigo siendo responsable de cada decisión y de cada línea que se entrega.
-            </li>
-            <li>
-              <strong class="text-ink">Comunicación clara.</strong> Recibe opciones claras y una recomendación.
-            </li>
+          <Heading as="h2" size="subheading">Cómo trabajo</Heading>
+          <ul class="mt-4">
+            {
+              howIWork.map((item) => (
+                <ListRow title={item.title}>{item.body}</ListRow>
+              ))
+            }
           </ul>
         </section>
 
         <section class="mt-10">
-          <h2 class="text-xl font-semibold tracking-tight text-ink">Más allá del trabajo</h2>
-          <p class="mt-3 text-[0.975rem] leading-relaxed text-muted">
+          <Heading as="h2" size="subheading">Más allá del trabajo</Heading>
+          <p class="mt-3 leading-relaxed text-muted">
             Aprender es algo que disfruto por sí mismo, no solo porque me sea útil en el trabajo. Exploro nuevas tecnologías y metodologías, y me atraen sobre todo las áreas en las que todavía no tengo experiencia. En los últimos meses he estado integrando IA en mis flujos de trabajo y aplicando spec-driven development.
-          </p>
-        </section>
-
-        <section class="mt-12">
-          <p class="text-[0.975rem] leading-relaxed text-muted">
-            ¿Tiene un proyecto en mente? Cuénteme qué está construyendo y qué se interpone en el camino.{" "}
-            <a href={contactHref} class="font-medium text-accent underline underline-offset-2 hover:text-accent-ink">
-              Hablemos.
-            </a>
           </p>
         </section>
       </article>
     </Container>
+
+    <GradientBand
+      variant="cta"
+      heading="¿Tiene un proyecto en mente?"
+      paragraph="Cuénteme qué está construyendo y qué se interpone en el camino."
+      cta={{ label: "Hablemos", href: "/es/#contact" }}
+    />
   </main>
 
   <Footer />

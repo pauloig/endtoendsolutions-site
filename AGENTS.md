@@ -2,7 +2,7 @@
 
 Personal marketing site for **End to End Solutions**. Astro 7 static output,
 Tailwind 4, one React island, nginx-served. Currently a scaffold: most copy is
-marked `[PLACEHOLDER: ...]`, and `About`/`Work` pages do not exist.
+marked `[PLACEHOLDER: ...]`, and the `Work` pages do not exist yet.
 
 `CLAUDE.md` is a symlink to this file — edit this one.
 
@@ -76,30 +76,44 @@ one bug that must not ship.
 
 - `[PLACEHOLDER: ...]` markers are intentional deliverables, not leftovers to
   clean up. `grep -rn "PLACEHOLDER" src public` lists what still needs content.
-- Home is a split hero (left: eyebrow/h1/sub-copy/primary CTA + a "What I do"
-  text link to `#services`; right: a flow card with an `<ol>` of five steps),
-  then a service list of hairline-bordered rows (two columns at 1024px+), then a
-  gradient contact band holding the form. EN at `/`, ES at `/es/`; components
-  take a `locale` prop and hold their copy in a `content` dictionary. Below
-  1024px the hero stacks with the card after the CTA.
-- All top-level chrome (header, footer, every Home section) uses
+- Home is a split hero (left: eyebrow + short h1 + the positioning sentence as a
+  sub-line + primary CTA + a "What I do" text link to `#services`; right: a flow
+  card with an `<ol>` of five steps), then a service list of hairline-bordered
+  rows (two columns at 1024px+), then a gradient contact band holding the form.
+  EN at `/`, ES at `/es/`; components take a `locale` prop and hold their copy in
+  a `content` dictionary. Below 1024px the hero stacks with the card after the
+  CTA.
+- **Page background is always the `paper` token; only cards and form surfaces
+  use `surface`.** Chrome (header, footer) and every section sit on `paper`, so
+  the flow card and the contact form card are the only things that read as
+  raised. Don't set a section back to `bg-surface`.
+- Shared building blocks: `Container.astro` (page width/padding),
+  `Heading.astro` (Sora headings: `display`/`heading`/`subheading`, `ink`/`white`
+  tone), `ListRow.astro` (hairline row with title + description, used by the
+  Home services and About "How I work"), and `GradientBand.astro` (the only
+  gradient surface; `form` variant holds the contact form + `#contact` anchor,
+  `cta` variant is copy + a single link). Reuse these instead of re-styling.
+- All top-level chrome (header, footer, every page section) uses
   `src/components/Container.astro` — `max-w-[1360px]` with `px-6 md:px-10
   lg:px-14` (24/40/56px) — so their edges line up. Adjust widths there, not
-  per-section. Long-form pages (About, privacy) keep a `max-w-3xl` reading
-  column inside it, left-aligned to the container edge.
+  per-section. All pages share the same vertical rhythm (`py-14 sm:py-16` on the
+  top-level container). Long-form pages (About, privacy) keep a `max-w-[65ch]`
+  reading column inside it, left-aligned to the container edge.
 - The hero has a hard constraint: **the primary CTA must stay fully above the
   fold at 320×568, 375×667 and 390×844, in both locales**. The h1 is short and
-  fluid (`clamp(2.25rem,1.87rem+1.9vw,3.5rem)`, `max-w-[18ch]`): two lines from
+  fluid (`clamp(2rem,1.54rem+2.3vw,3.5rem)`, `max-w-[18ch]`): two lines from
   1024px up, three at 320px, in both locales. The long positioning sentence is
-  the sub-line (`clamp(1.125rem,1.08rem+0.2vw,1.25rem)`, `max-w-[60ch]`).
-  Verified by measuring `getBoundingClientRect()`; re-check if you lengthen the
-  headline, sub-line or CTA row.
+  the sub-line (`clamp(1.125rem,1.08rem+0.2vw,1.25rem)`, `max-w-[60ch]`). The h1
+  floor is `2rem`, not `2.25rem`: at 320px the content column is 272px and
+  `2.25rem` wraps this headline to four lines. Verified by measuring
+  `getBoundingClientRect()`; re-check if you lengthen the headline, sub-line or
+  CTA row.
 - The header wordmark text is hidden below 360px (`hidden min-[360px]:inline`)
   so the nav fits at 320px without horizontal overflow; the logo mark remains.
 - Gradient rule: the only gradients are the logo mark, the thin hero accent
-  (`bg-brand-gradient`, cyan → violet) and the contact band
-  (`bg-brand-gradient-band`, cyan-free `#5926ab` → `#8127fb`). Do not add other
-  gradient surfaces.
+  (`bg-brand-gradient`, cyan → violet) and the band
+  (`bg-brand-gradient-band`, cyan-free `#5926ab` → `#8127fb`) rendered by
+  `GradientBand.astro`. Do not add other gradient surfaces.
 - `ContactForm` is `client:visible`, posts to Web3Forms with honeypot; if the
   access key is missing at build time, it shows a mailto fallback. It does not
   hydrate until scrolled into view — browser tests must scroll to `#contact`
@@ -115,6 +129,8 @@ one bug that must not ship.
   `:root[data-theme="dark"]` and a `prefers-color-scheme` fallback. `brand-*`
   tokens are fixed in both themes; **buttons are always `bg-brand-violet` with
   white text** — using `bg-accent` puts white on cyan in dark and fails contrast.
+  The one exception is the `GradientBand` `cta` link, which is white on the
+  violet band (a violet button would disappear into the gradient).
 - Fonts are self-hosted (`@fontsource-variable/sora` + `inter`, Latin subset) and
   the two `.woff2` are preloaded in `BaseLayout.astro`. Do not reintroduce a
   Google Fonts / CDN `<link>`.

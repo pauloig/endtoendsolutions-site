@@ -1,0 +1,50 @@
+---
+/*
+ * Shared list row.
+ *
+ * A hairline-bordered row used by the Home service list and the About "How I
+ * work" list, so the two read as the same kind of list. The title sits in the
+ * left column and the description in the right one from the `sm` breakpoint;
+ * `innerClass` lets a caller change that (the Home list stacks them once its
+ * own grid becomes two columns at `lg`).
+ *
+ * Rendered as an `<li>` on purpose: put it inside a `<ul>`.
+ */
+
+interface Props {
+  title: string;
+  /** Secondary rows keep the title muted to lower their visual weight. */
+  secondary?: boolean;
+  /** Extra classes for the inner title/description grid. */
+  innerClass?: string;
+  class?: string;
+}
+
+const {
+  title,
+  secondary = false,
+  innerClass,
+  class: className,
+} = Astro.props;
+---
+
+<li class:list={["border-t border-line py-6 sm:py-7", className]}>
+  <div
+    class:list={[
+      "grid gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] sm:gap-8",
+      innerClass,
+    ]}
+  >
+    <h3
+      class:list={[
+        "text-base font-semibold",
+        secondary ? "text-muted" : "text-ink",
+      ]}
+    >
+      {title}
+    </h3>
+    <p class="text-sm leading-relaxed text-muted sm:mt-0.5">
+      <slot />
+    </p>
+  </div>
+</li>

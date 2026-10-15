@@ -1,0 +1,52 @@
+---
+/*
+ * Shared heading.
+ *
+ * One heading component with a small, role-based type scale so every page uses
+ * the same sizes: `display` for page titles, `heading` for major sections and
+ * `subheading` for sub-sections. `tone` switches the text colour between the
+ * theme ink token and white, which the gradient band needs.
+ *
+ * Headings always use the Sora heading font (set in the base layer), so only
+ * size, weight, colour and spacing live here.
+ */
+
+interface Props {
+  /** Rendered element. Defaults to `h2`. */
+  as?: "h1" | "h2" | "h3";
+  /** Role in the type scale. Defaults to `heading`. */
+  size?: "display" | "heading" | "subheading";
+  /** Text colour. Defaults to the theme ink token. */
+  tone?: "ink" | "white";
+  class?: string;
+}
+
+const {
+  as: Tag = "h2",
+  size = "heading",
+  tone = "ink",
+  class: className,
+} = Astro.props;
+
+const sizes = {
+  display: "text-3xl sm:text-4xl",
+  heading: "text-2xl sm:text-3xl",
+  subheading: "text-xl",
+};
+
+const tones = {
+  ink: "text-ink",
+  white: "text-white",
+};
+---
+
+<Tag
+  class:list={[
+    "font-semibold tracking-tight",
+    sizes[size],
+    tones[tone],
+    className,
+  ]}
+>
+  <slot />
+</Tag>

@@ -2,6 +2,7 @@
 import Container from "../../components/Container.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
+import Heading from "../../components/Heading.astro";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
 const updated = "2026-10-04";
@@ -14,11 +15,9 @@ const updated = "2026-10-04";
   <Header />
 
   <main id="main" class="flex-1">
-    <Container class="py-14 sm:py-20">
-      <div class="max-w-3xl">
-        <h1 class="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Privacy Policy
-        </h1>
+    <Container class="py-14 sm:py-16">
+      <div class="max-w-[65ch]">
+        <Heading as="h1" size="display">Privacy Policy</Heading>
         <p class="mt-2 text-sm text-muted">
           Last updated: <time datetime={updated}>{updated}</time>
         </p>
@@ -29,9 +28,9 @@ const updated = "2026-10-04";
           (e.g. GDPR/LOPD) before publishing.]
         -->
 
-        <div class="mt-10 space-y-8 text-[0.975rem] leading-relaxed text-muted">
+        <div class="mt-10 space-y-8 leading-relaxed text-muted">
           <section>
-            <h2 class="text-lg font-semibold text-ink">Summary</h2>
+            <Heading as="h2" size="subheading">Summary</Heading>
             <p class="mt-2">
               This site is operated by End to End Solutions. It is a small
               marketing site with no accounts, no payments and no advertising
@@ -41,7 +40,7 @@ const updated = "2026-10-04";
           </section>
 
           <section>
-            <h2 class="text-lg font-semibold text-ink">Traffic measurement</h2>
+            <Heading as="h2" size="subheading">Traffic measurement</Heading>
             <p class="mt-2">
               We use <strong class="text-ink">Google Analytics 4 (GA4)</strong> to
               measure how visitors use the site — which pages are read, where they
@@ -62,7 +61,7 @@ const updated = "2026-10-04";
           </section>
 
           <section>
-            <h2 class="text-lg font-semibold text-ink">Contact form</h2>
+            <Heading as="h2" size="subheading">Contact form</Heading>
             <p class="mt-2">
               If you submit the contact form we keep the name, email address and
               message you provide so that we can reply. This information is used
@@ -77,7 +76,7 @@ const updated = "2026-10-04";
           </section>
 
           <section>
-            <h2 class="text-lg font-semibold text-ink">Your rights</h2>
+            <Heading as="h2" size="subheading">Your rights</Heading>
             <p class="mt-2">
               Depending on where you live, you may have the right to access,
               correct or delete the data we hold about you, and to object to or
@@ -87,7 +86,7 @@ const updated = "2026-10-04";
           </section>
 
           <section>
-            <h2 class="text-lg font-semibold text-ink">Third parties</h2>
+            <Heading as="h2" size="subheading">Third parties</Heading>
             <p class="mt-2">
               Google Analytics is operated by Google LLC. Loading it transfers
               your IP address and usage data to Google, which processes it under its
@@ -99,13 +98,13 @@ const updated = "2026-10-04";
           </section>
 
           <section>
-            <h2 class="text-lg font-semibold text-ink">Contact</h2>
+            <Heading as="h2" size="subheading">Contact</Heading>
             <p class="mt-2">
               <!-- [PLACEHOLDER: final contact address] -->
               Questions about this policy:
               <a
                 href="mailto:contacto@endtoendsolutions.dev"
-                class="font-medium text-accent underline underline-offset-2 hover:text-accent-ink"
+                class="font-medium break-words text-accent underline underline-offset-2 hover:text-accent-ink"
               >
                 contacto@endtoendsolutions.dev
               </a>

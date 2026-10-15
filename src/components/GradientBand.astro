@@ -1,0 +1,95 @@
+---
+/*
+ * Gradient band.
+ *
+ * The one gradient surface used for calls to action, built on the cyan-free
+ * brand gradient (`bg-brand-gradient-band`, violet -> violet). It comes in two
+ * variants:
+ *
+ *   - `form`: copy on the left, a surface-coloured card on the right that holds
+ *     the slot (the Home page puts the contact form there). This variant owns
+ *     the `#contact` anchor.
+ *   - `cta`: copy on the left and a single link on the right (the About page's
+ *     closing call to action).
+ *
+ * The link in the `cta` variant is white with violet text rather than the usual
+ * `bg-brand-violet` button: a violet button would disappear into the violet
+ * gradient, and white-on-violet is the accessible way to keep it legible here.
+ */
+
+import Container from "./Container.astro";
+import Heading from "./Heading.astro";
+
+interface Props {
+  variant?: "form" | "cta";
+  /** Anchor id, usually only set for the Home contact band. */
+  id?: string;
+  heading: string;
+  paragraph: string;
+  /** Optional "prefer email?" line, shown in the `form` variant. */
+  email?: { label: string; address: string };
+  /** Link rendered in the `cta` variant. */
+  cta?: { label: string; href: string };
+  class?: string;
+}
+
+const {
+  variant = "form",
+  id,
+  heading,
+  paragraph,
+  email,
+  cta,
+  class: className,
+} = Astro.props;
+---
+
+<section id={id} class:list={["scroll-mt-16", className]}>
+  <Container class="py-14 sm:py-16">
+    <div class="rounded-3xl bg-brand-gradient-band p-6 sm:p-10 lg:p-12">
+      {
+        variant === "form" ? (
+          <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+            <div>
+              <Heading tone="white">{heading}</Heading>
+              <p class="mt-3 max-w-md text-white/90">{paragraph}</p>
+
+              {email && (
+                <p class="mt-6 text-sm text-white/90">
+                  {email.label}{" "}
+                  <a
+                    href={`mailto:${email.address}`}
+                    class="ml-1 font-medium text-white underline underline-offset-2 transition-colors hover:text-white/90"
+                  >
+                    {email.address}
+                  </a>
+                </p>
+              )}
+            </div>
+
+            <div class="rounded-2xl border border-line bg-surface p-6 sm:p-8">
+              <slot />
+            </div>
+          </div>
+        ) : (
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between sm:gap-10">
+            <div>
+              <Heading tone="white">{heading}</Heading>
+              <p class="mt-3 max-w-xl text-white/90">{paragraph}</p>
+            </div>
+
+            {cta && (
+              <a
+                href={cta.href}
+                class="inline-flex shrink-0 items-center justify-center gap-2 rounded-md bg-white px-5 py-3 text-sm font-semibold text-brand-violet-ink transition-colors hover:bg-white/90 focus-visible:outline-white"
+              >
+                {cta.label}
+                <span aria-hidden="true">→</span>
+              </a>
+            )}
+          </div>
+        )
+      }
+    </div>
+  </Container>
+</section>
