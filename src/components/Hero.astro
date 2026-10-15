@@ -9,12 +9,14 @@
  *
  * Layout: split at 1024px and up (about 1.6fr / 1fr, 64px gap, vertically
  * centred). Below 1024px the columns stack, with the flow card after the CTA.
- * The h1 uses a fluid clamp() size so the headline wraps in far fewer lines on
- * wide screens. The maximum is kept at 2.5rem: at 3rem the longer Spanish
- * headline wrapped to six lines at 1440px/1920px, past the five-line target.
- * The minimum is 1.625rem, not 2rem: the longer Spanish headline needs ten
- * lines at 2rem on a 320px viewport, which pushed the primary CTA below the
- * fold at 320×568. 1.625rem wraps it to nine lines and clears the fold.
+ * The headline is short and uses a fluid clamp() so it stays on two lines from
+ * 1024px up (three at 320px). The positioning sentence that used to be the
+ * headline is now the sub-line, so the primary CTA keeps a large margin above
+ * the fold at 320×568.
+ *
+ * The h1 floor is 2rem, not the 2.25rem that would be ideal: at 320px the
+ * content column is 272px wide and 2.25rem wraps this headline to four lines,
+ * past the three-line target.
  */
 
 import Container from "./Container.astro";
@@ -28,10 +30,9 @@ const { locale = "en" } = Astro.props;
 const content = {
   en: {
     tagline: "Senior technical partner",
-    headline:
-      "A senior technical partner who can embed as a developer, lead architecture decisions, or scale into a small team when the project needs it.",
+    headline: "Senior judgment, hands-on delivery.",
     subheadline:
-      "Hands-on engineering and architecture for teams that need a senior perspective without committing to a permanent hire.",
+      "A senior technical partner who can embed as a developer, lead architecture decisions, or scale into a small team when the project needs it.",
     ctaPrimaryShort: "Let's talk",
     ctaPrimaryLong: "Start a conversation",
     ctaSecondary: "What I do",
@@ -46,10 +47,9 @@ const content = {
   },
   es: {
     tagline: "Socio técnico senior",
-    headline:
-      "Un socio técnico senior que puede integrarse como desarrollador, liderar decisiones de arquitectura o escalar a un pequeño equipo cuando el proyecto lo necesita.",
+    headline: "Criterio senior, ejecución práctica.",
     subheadline:
-      "Ingeniería práctica y arquitectura para equipos que necesitan una visión senior sin comprometerse a una contratación fija.",
+      "Un socio técnico senior que puede integrarse como desarrollador, liderar decisiones de arquitectura o escalar a un pequeño equipo cuando el proyecto lo necesita.",
     ctaPrimaryShort: "Hablemos",
     ctaPrimaryLong: "Iniciar conversación",
     ctaSecondary: "Qué hago",
@@ -81,14 +81,14 @@ const flowLabelId = "home-flow-label";
         </p>
 
         <h1
-          class="mt-3 max-w-[30ch] text-[clamp(1.625rem,1.36rem+1.35vw,2.5rem)] leading-[1.1] font-semibold tracking-tight text-ink text-balance min-[360px]:mt-4"
+          class="mt-3 max-w-[18ch] text-[clamp(2rem,1.54rem+2.3vw,3.5rem)] leading-[1.1] font-semibold tracking-tight text-ink text-balance min-[360px]:mt-4"
         >
           <!-- [PLACEHOLDER: titular definitivo] -->
           {c.headline}
         </h1>
 
         <p
-          class="mt-3 max-w-[60ch] text-[0.95rem] text-pretty text-muted min-[360px]:text-base sm:mt-4 sm:text-lg"
+          class="mt-3 max-w-[60ch] text-[clamp(1.125rem,1.08rem+0.2vw,1.25rem)] leading-relaxed text-pretty text-muted sm:mt-4"
         >
           <!-- [PLACEHOLDER: two-line value proposition] -->
           {c.subheadline}

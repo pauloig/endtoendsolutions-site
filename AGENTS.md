@@ -88,12 +88,12 @@ one bug that must not ship.
   per-section. Long-form pages (About, privacy) keep a `max-w-3xl` reading
   column inside it, left-aligned to the container edge.
 - The hero has a hard constraint: **the primary CTA must stay fully above the
-  fold at 320×568, 375×667 and 390×844, in both locales**. The h1 is fluid
-  (`clamp(1.625rem,1.36rem+1.35vw,2.5rem)`): its floor is 1.625rem rather than
-  2rem because the longer Spanish headline pushed the CTA below the fold at
-  320px, and its ceiling is 2.5rem to keep the headline within five lines at
-  1440px/1920px. Verified by measuring `getBoundingClientRect()`; re-check if you
-  lengthen the headline, sub-copy or CTA row.
+  fold at 320×568, 375×667 and 390×844, in both locales**. The h1 is short and
+  fluid (`clamp(2.25rem,1.87rem+1.9vw,3.5rem)`, `max-w-[18ch]`): two lines from
+  1024px up, three at 320px, in both locales. The long positioning sentence is
+  the sub-line (`clamp(1.125rem,1.08rem+0.2vw,1.25rem)`, `max-w-[60ch]`).
+  Verified by measuring `getBoundingClientRect()`; re-check if you lengthen the
+  headline, sub-line or CTA row.
 - The header wordmark text is hidden below 360px (`hidden min-[360px]:inline`)
   so the nav fits at 320px without horizontal overflow; the logo mark remains.
 - Gradient rule: the only gradients are the logo mark, the thin hero accent

@@ -17,6 +17,8 @@ const { locale = "en" } = Astro.props;
 const content = {
   en: {
     heading: "How I can help",
+    positioning:
+      "Hands-on engineering and architecture for teams that need a senior perspective without committing to a permanent hire.",
     intro: "Engagements start where the risk is highest and end when it is paid off.",
     services: [
       {
@@ -49,6 +51,8 @@ const content = {
   },
   es: {
     heading: "Cómo puedo ayudarte",
+    positioning:
+      "Ingeniería práctica y arquitectura para equipos que necesitan una visión senior sin comprometerse a una contratación fija.",
     intro: "Los proyectos empiezan donde el riesgo es mayor y terminan cuando ese riesgo está mitigado.",
     services: [
       {
@@ -89,6 +93,9 @@ const c = content[locale];
     <h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
       {c.heading}
     </h2>
+    <p class="mt-3 max-w-2xl text-muted">
+      {c.positioning}
+    </p>
     <p class="mt-2 max-w-2xl text-muted">
       {c.intro}
     </p>

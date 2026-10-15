@@ -42,7 +42,7 @@ astro build (pnpm build)  ──>  dist/            static, no runtime
 | `src/components/CookieBanner.astro` | Consent UI. Ships `hidden`; JS reveals it only when no stored decision. Sole caller of `__e2eLoadGA`. |
 | `src/lib/analytics.ts` | Shared `CONSENT_STORAGE_KEY` + `isValidMeasurementId`. Single source for both analytics components. |
 | `src/components/ContactForm.tsx` | **Only React island** (`client:visible`). Posts to Web3Forms; mailto fallback when the access key is missing at build time. |
-| `Hero.astro` | Split hero (1.2fr/1fr): eyebrow + h1 + sub-copy + primary CTA + "What I do" link, and a flow card (`<ol>` of 5 steps). **Above-the-fold constraint at 320×568 / 375×667 / 390×844.** |
+| `Hero.astro` | Split hero (1.6fr/1fr): eyebrow + short h1 + positioning sentence as sub-line + primary CTA + "What I do" link, and a flow card (`<ol>` of 5 steps). **Above-the-fold constraint at 320×568 / 375×667 / 390×844.** |
 | `ServicesList.astro` | 5 services as hairline-bordered rows; `secondary` flag de-emphasises Team augmentation. No link affordances. |
 | `ContactBand.astro` | Gradient band (`bg-brand-gradient-band`) holding the contact copy + `ContactForm` in a surface card. Owns the `#contact` id. Copy in EN/ES dictionary. |
 | `Header.astro` / `Footer.astro` | Nav: About exists in both locales, Work hidden until the page exists. Language switcher (path-preserving) + theme toggle. Wordmark text hidden below 360px so the nav fits at 320px. Footer holds contact details. |
