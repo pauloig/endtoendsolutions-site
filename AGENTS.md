@@ -78,14 +78,22 @@ one bug that must not ship.
   clean up. `grep -rn "PLACEHOLDER" src public` lists what still needs content.
 - Home is a split hero (left: eyebrow/h1/sub-copy/primary CTA + a "What I do"
   text link to `#services`; right: a flow card with an `<ol>` of five steps),
-  then a service list of hairline-bordered rows, then a gradient contact band
-  holding the form. EN at `/`, ES at `/es/`; components take a `locale` prop and
-  hold their copy in a `content` dictionary. Below 768px the hero stacks with the
-  card after the CTA.
+  then a service list of hairline-bordered rows (two columns at 1024px+), then a
+  gradient contact band holding the form. EN at `/`, ES at `/es/`; components
+  take a `locale` prop and hold their copy in a `content` dictionary. Below
+  1024px the hero stacks with the card after the CTA.
+- All top-level chrome (header, footer, every Home section) uses
+  `src/components/Container.astro` — `max-w-[1360px]` with `px-6 md:px-10
+  lg:px-14` (24/40/56px) — so their edges line up. Adjust widths there, not
+  per-section. Long-form pages (About, privacy) keep a `max-w-3xl` reading
+  column inside it, left-aligned to the container edge.
 - The hero has a hard constraint: **the primary CTA must stay fully above the
-  fold at 320×568, 375×667 and 390×844**. Verified by measuring
-  `getBoundingClientRect()`; re-check it if you lengthen the headline, sub-copy
-  or CTA row.
+  fold at 320×568, 375×667 and 390×844, in both locales**. The h1 is fluid
+  (`clamp(1.625rem,1.36rem+1.35vw,2.5rem)`): its floor is 1.625rem rather than
+  2rem because the longer Spanish headline pushed the CTA below the fold at
+  320px, and its ceiling is 2.5rem to keep the headline within five lines at
+  1440px/1920px. Verified by measuring `getBoundingClientRect()`; re-check if you
+  lengthen the headline, sub-copy or CTA row.
 - The header wordmark text is hidden below 360px (`hidden min-[360px]:inline`)
   so the nav fits at 320px without horizontal overflow; the logo mark remains.
 - Gradient rule: the only gradients are the logo mark, the thin hero accent

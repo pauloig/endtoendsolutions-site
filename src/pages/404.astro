@@ -1,4 +1,5 @@
 ---
+import Container from "../components/Container.astro";
 import Footer from "../components/Footer.astro";
 import Header from "../components/Header.astro";
 import BaseLayout from "../layouts/BaseLayout.astro";
@@ -11,34 +12,36 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 >
   <Header />
 
-  <main id="main" class="mx-auto flex w-full max-w-5xl flex-1 flex-col justify-center px-4 py-20 sm:px-6 sm:py-28">
-    <p class="font-mono text-sm text-accent">404</p>
+  <main id="main" class="flex flex-1 flex-col justify-center">
+    <Container class="py-20 sm:py-28">
+      <p class="font-mono text-sm text-accent">404</p>
 
-    <h1 class="mt-3 max-w-2xl text-3xl leading-tight font-semibold tracking-tight text-ink text-balance sm:text-4xl">
-      <!-- [PLACEHOLDER: review the tone of the message; it already works] -->
-      This page took an early exit.
-    </h1>
+      <h1 class="mt-3 max-w-2xl text-3xl leading-tight font-semibold tracking-tight text-ink text-balance sm:text-4xl">
+        <!-- [PLACEHOLDER: review the tone of the message; it already works] -->
+        This page took an early exit.
+      </h1>
 
-    <p class="mt-4 max-w-xl text-muted">
-      The address you opened doesn't match anything on this site. It may have
-      moved, or the link that brought you here was mistyped.
-    </p>
+      <p class="mt-4 max-w-xl text-muted">
+        The address you opened doesn't match anything on this site. It may have
+        moved, or the link that brought you here was mistyped.
+      </p>
 
-    <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-      <a
-        href="/"
-        class="inline-flex items-center justify-center gap-2 rounded-md bg-brand-violet px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-violet-ink"
-      >
-        Back to home
-        <span aria-hidden="true">→</span>
-      </a>
-      <a
-        href="/#contact"
-        class="inline-flex items-center justify-center rounded-md border border-line px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-paper"
-      >
-        Contact me
-      </a>
-    </div>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center gap-2 rounded-md bg-brand-violet px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-violet-ink"
+        >
+          Back to home
+          <span aria-hidden="true">→</span>
+        </a>
+        <a
+          href="/#contact"
+          class="inline-flex items-center justify-center rounded-md border border-line px-5 py-3 text-sm font-semibold text-ink transition-colors hover:bg-paper"
+        >
+          Contact me
+        </a>
+      </div>
+    </Container>
   </main>
 
   <Footer />

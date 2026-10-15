@@ -1,4 +1,6 @@
 ---
+import Container from "./Container.astro";
+
 interface Props {
   locale?: "en" | "es";
 }
@@ -43,9 +45,7 @@ const themeLabels =
 <header
   class="sticky top-0 z-30 border-b border-line bg-paper/85 backdrop-blur-sm"
 >
-  <div
-    class="mx-auto flex max-w-5xl items-center justify-between gap-4 px-4 py-3 sm:px-6"
-  >
+  <Container class="flex items-center justify-between gap-4 py-3">
     <a
       href={locale === "en" ? "/" : "/es/"}
       class="flex items-center gap-2 text-xs font-semibold tracking-[0.18em] uppercase transition-colors"
@@ -136,7 +136,7 @@ const themeLabels =
         </li>
       </ul>
     </nav>
-  </div>
+  </Container>
 </header>
 
 <script>

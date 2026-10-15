@@ -1,4 +1,6 @@
 ---
+import Container from "./Container.astro";
+
 interface Service {
   title: string;
   description: string;
@@ -83,7 +85,7 @@ const c = content[locale];
 ---
 
 <section id="services" class="scroll-mt-16 border-b border-line">
-  <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
+  <Container class="py-14 sm:py-16">
     <h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
       {c.heading}
     </h2>
@@ -91,11 +93,11 @@ const c = content[locale];
       {c.intro}
     </p>
 
-    <ul class="mt-10">
+    <ul class="mt-10 grid gap-x-12 lg:grid-cols-2">
       {
         c.services.map((service) => (
           <li class="border-t border-line py-6 sm:py-7">
-            <div class="grid gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] sm:gap-8">
+            <div class="grid gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] sm:gap-8 lg:grid-cols-1 lg:gap-2">
               <h3
                 class:list={[
                   "text-base font-semibold",
@@ -114,5 +116,5 @@ const c = content[locale];
         ))
       }
     </ul>
-  </div>
+  </Container>
 </section>

@@ -9,6 +9,7 @@
  */
 
 import ContactForm from "./ContactForm";
+import Container from "./Container.astro";
 
 interface Props {
   locale?: "en" | "es";
@@ -37,7 +38,7 @@ const c = content[locale];
 ---
 
 <section id="contact" class="scroll-mt-16">
-  <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
+  <Container class="py-14 sm:py-16">
     <div class="rounded-3xl bg-brand-gradient-band p-6 sm:p-10 lg:p-12">
       <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
         <div>
@@ -69,5 +70,5 @@ const c = content[locale];
         </div>
       </div>
     </div>
-  </div>
+  </Container>
 </section>
