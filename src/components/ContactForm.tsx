@@ -194,7 +194,7 @@ export default function ContactForm() {
             aria-describedby={nameError ? nameErrorId : undefined}
           />
           {nameError && (
-            <p id={nameErrorId} className="mt-1 text-xs text-red-600" aria-live="polite">
+            <p id={nameErrorId} className="mt-1 text-xs text-danger" aria-live="polite">
               {nameError}
             </p>
           )}
@@ -217,7 +217,7 @@ export default function ContactForm() {
             aria-describedby={emailError ? emailErrorId : undefined}
           />
           {emailError && (
-            <p id={emailErrorId} className="mt-1 text-xs text-red-600" aria-live="polite">
+            <p id={emailErrorId} className="mt-1 text-xs text-danger" aria-live="polite">
               {emailError}
             </p>
           )}
@@ -240,7 +240,7 @@ export default function ContactForm() {
           aria-describedby={messageError ? messageErrorId : undefined}
         />
         {messageError && (
-          <p id={messageErrorId} className="mt-1 text-xs text-red-600" aria-live="polite">
+          <p id={messageErrorId} className="mt-1 text-xs text-danger" aria-live="polite">
             {messageError}
           </p>
         )}

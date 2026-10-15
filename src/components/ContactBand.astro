@@ -1,0 +1,73 @@
+---
+/*
+ * Contact band.
+ *
+ * A rounded block using the cyan-free brand gradient (`bg-brand-gradient-band`,
+ * violet -> violet) with the existing contact copy on the left and the contact
+ * form inside a surface-coloured card on the right. Keeps the `#contact` id so
+ * the hero CTA and header links keep working.
+ */
+
+import ContactForm from "./ContactForm";
+
+interface Props {
+  locale?: "en" | "es";
+}
+
+const { locale = "en" } = Astro.props;
+
+const content = {
+  en: {
+    heading: "Let's talk about your project",
+    paragraph:
+      "Tell me what you are building, what is in the way, and what a good outcome looks like. I reply within two business days.",
+    preferEmail: "Prefer email?",
+    email: "contact@endtoendsolutions.dev",
+  },
+  es: {
+    heading: "Hablemos sobre tu proyecto",
+    paragraph:
+      "Cuéntame qué estás construyendo, qué te está frenando y qué resultado buscas. Te respondo en un plazo máximo de dos días hábiles.",
+    preferEmail: "¿Prefieres el correo electrónico?",
+    email: "contacto@endtoendsolutions.dev",
+  },
+};
+
+const c = content[locale];
+---
+
+<section id="contact" class="scroll-mt-16">
+  <div class="mx-auto max-w-5xl px-4 py-14 sm:px-6 sm:py-16">
+    <div class="rounded-3xl bg-brand-gradient-band p-6 sm:p-10 lg:p-12">
+      <div class="grid gap-8 lg:grid-cols-2 lg:gap-12">
+        <div>
+          <h2
+            class="text-2xl font-semibold tracking-tight text-white sm:text-3xl"
+          >
+            <!-- [PLACEHOLDER: contact section heading] -->
+            {c.heading}
+          </h2>
+          <p class="mt-3 max-w-md text-white/90">
+            <!-- [PLACEHOLDER: texto de contacto, tiempo de respuesta y zona horaria] -->
+            {c.paragraph}
+          </p>
+
+          <p class="mt-6 text-sm text-white/90">
+            {c.preferEmail}
+            <!-- [PLACEHOLDER: final contact address] -->
+            <a
+              href={`mailto:${c.email}`}
+              class="ml-1 font-medium text-white underline underline-offset-2 transition-colors hover:text-white/90"
+            >
+              {c.email}
+            </a>
+          </p>
+        </div>
+
+        <div class="rounded-2xl border border-line bg-surface p-6 sm:p-8">
+          <ContactForm client:visible />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

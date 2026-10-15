@@ -42,10 +42,11 @@ astro build (pnpm build)  ──>  dist/            static, no runtime
 | `src/components/CookieBanner.astro` | Consent UI. Ships `hidden`; JS reveals it only when no stored decision. Sole caller of `__e2eLoadGA`. |
 | `src/lib/analytics.ts` | Shared `CONSENT_STORAGE_KEY` + `isValidMeasurementId`. Single source for both analytics components. |
 | `src/components/ContactForm.tsx` | **Only React island** (`client:visible`). Posts to Web3Forms; mailto fallback when the access key is missing at build time. |
-| `Hero.astro` | Positioning + CTA. **Above-the-fold constraint at 320×568.** |
-| `ServicesList.astro` | 5 services; `secondary` flag de-emphasises Team augmentation. |
-| `Header.astro` / `Footer.astro` | Nav: About exists in both locales, Work hidden until the page exists. Language switcher (path-preserving) + theme toggle. Footer holds contact details. |
-| `src/styles/global.css` | Tailwind 4 `@theme` tokens (`paper`/`surface`/`ink`/`muted`/`line`/`accent` + fixed `brand-*`/`wordmark-*`), self-hosted `@font-face`, gradient utility, theme-toggle CSS. No `tailwind.config.js` — do not add one. |
+| `Hero.astro` | Split hero (1.2fr/1fr): eyebrow + h1 + sub-copy + primary CTA + "What I do" link, and a flow card (`<ol>` of 5 steps). **Above-the-fold constraint at 320×568 / 375×667 / 390×844.** |
+| `ServicesList.astro` | 5 services as hairline-bordered rows; `secondary` flag de-emphasises Team augmentation. No link affordances. |
+| `ContactBand.astro` | Gradient band (`bg-brand-gradient-band`) holding the contact copy + `ContactForm` in a surface card. Owns the `#contact` id. Copy in EN/ES dictionary. |
+| `Header.astro` / `Footer.astro` | Nav: About exists in both locales, Work hidden until the page exists. Language switcher (path-preserving) + theme toggle. Wordmark text hidden below 360px so the nav fits at 320px. Footer holds contact details. |
+| `src/styles/global.css` | Tailwind 4 `@theme` tokens (`paper`/`surface`/`ink`/`muted`/`line`/`accent`/`danger` + fixed `brand-*`/`wordmark-*`), self-hosted `@font-face`, two gradient utilities (`bg-brand-gradient`, `bg-brand-gradient-band`), theme-toggle CSS. No `tailwind.config.js` — do not add one. |
 
 ## Data & persistence
 
@@ -60,7 +61,8 @@ astro build (pnpm build)  ──>  dist/            static, no runtime
 
 ## Key user flows
 
-1. **Land on Home** → hero + CTA above the fold → `#services` → `#contact`.
+1. **Land on Home** → split hero, primary CTA above the fold → `#services`
+   (hairline-bordered rows) → `#contact` (gradient band with the form).
 2. **Consent** → banner appears → Accept stores `granted` + injects GA4;
    Reject stores `denied` + never contacts Google. Later visits skip the banner.
 3. **Unknown URL** → nginx 404 (real status) → friendly 404 page → Home.
@@ -92,6 +94,11 @@ astro build (pnpm build)  ──>  dist/            static, no runtime
   the constant silently desyncs the legal text.
 - **Buttons must stay `bg-brand-violet` with white text.** `bg-accent` flips to
   cyan in dark and puts white on cyan, failing contrast.
+- Gradient rule: only the logo mark, the thin hero accent (`bg-brand-gradient`)
+  and the contact band (`bg-brand-gradient-band`, cyan-free) are gradients. Do
+  not add other gradient surfaces.
+- Error text uses `text-danger` (theme-aware `#dc2626` light / `#f87171` dark);
+  plain `text-red-600` fails AA on the dark surface.
 - Fonts are self-hosted and preloaded in `BaseLayout.astro`; do not reintroduce
   a Google Fonts / CDN `<link>`.
 - The no-flash theme script (`BaseLayout.astro`, `is:inline`) and the toggle
@@ -103,13 +110,14 @@ astro build (pnpm build)  ──>  dist/            static, no runtime
 
 `pnpm check` clean · `pnpm build` 7 pages · Docker stack serves :80, 404 works
 with real status · "GA4 makes zero network requests before consent" · hero CTA
-above fold at 320×568 and larger.
+above fold at 320×568 / 375×667 / 390×844 with zero horizontal overflow
+(`scrollWidth == clientWidth`) at all three.
 
 Theme (checked via computed styles): `data-theme` toggles + persists in
 `localStorage["e2e_theme"]`, no flash (inline `<head>` script), wordmark and CTA
 colors correct in both themes, only self-hosted fonts requested (no Google
 Fonts), all text/background pairs meet WCAG AA (buttons = white on
-`#8127fb` = 5.81:1).
+`#8127fb` = 5.81:1; band text = white on `#5926ab`→`#8127fb` ≥ 5.81:1).
 
 Known: `pnpm audit` reports 1 high (`http-cache-semantics` ≤4.2.0 via astro,
 dev-server only, **absent from `dist/`**). No sitemap, no JSON-LD, no CSP.

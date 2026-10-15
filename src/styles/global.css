@@ -37,6 +37,7 @@
   --color-accent: #5926ab;
   --color-accent-ink: #3f1a7a;
   --color-accent-soft: #e7e2f8;
+  --color-danger: #dc2626;
 
   /* Brand (same in both themes) */
   --color-brand-violet: #8127fb;
@@ -57,8 +58,11 @@
 }
 
 :root {
-  /* Gradient: cyan -> violet at 135deg (logo mark + thin accent only) */
+  /* Gradients. `--brand-gradient` (cyan -> violet) is for the logo mark and the
+     thin accents only. `--brand-gradient-band` (cyan-free violet -> violet) is
+     for the contact band only. No other gradient surfaces. */
   --brand-gradient: linear-gradient(135deg, #41c6ed 0%, #8127fb 100%);
+  --brand-gradient-band: linear-gradient(135deg, #5926ab 0%, #8127fb 100%);
 }
 
 :root[data-theme="dark"] {
@@ -70,6 +74,7 @@
   --color-accent: #41c6ed;
   --color-accent-ink: #7ad9f5;
   --color-accent-soft: #1d2040;
+  --color-danger: #f87171;
 
   --color-wordmark-primary: #ffffff;
   --color-wordmark-secondary: #41c6ed;
@@ -85,6 +90,7 @@
     --color-accent: #41c6ed;
     --color-accent-ink: #7ad9f5;
     --color-accent-soft: #1d2040;
+    --color-danger: #f87171;
 
     --color-wordmark-primary: #ffffff;
     --color-wordmark-secondary: #41c6ed;
@@ -128,6 +134,9 @@
 @layer utilities {
   .bg-brand-gradient {
     background-image: var(--brand-gradient);
+  }
+  .bg-brand-gradient-band {
+    background-image: var(--brand-gradient-band);
   }
 }
 

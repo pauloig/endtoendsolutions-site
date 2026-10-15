@@ -91,28 +91,25 @@ const c = content[locale];
       {c.intro}
     </p>
 
-    <ul class="mt-8 grid gap-3 sm:grid-cols-2 sm:gap-4">
+    <ul class="mt-10">
       {
         c.services.map((service) => (
-          <li
-            class:list={[
-              "rounded-lg border p-5",
-              service.secondary
-                ? "border-line bg-transparent"
-                : "border-line bg-surface",
-            ]}
-          >
-            <h3
-              class:list={[
-                "text-base font-semibold",
-                service.secondary ? "text-muted" : "text-ink",
-              ]}
-            >
-              {service.title}
-            </h3>
-            <p class="mt-2 text-sm leading-relaxed text-muted">
-              {service.description}
-            </p>
+          <li class="border-t border-line py-6 sm:py-7">
+            <div class="grid gap-2 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)] sm:gap-8">
+              <h3
+                class:list={[
+                  "text-base font-semibold",
+                  service.secondary ? "text-muted" : "text-ink",
+                ]}
+              >
+                {service.title}
+              </h3>
+              {service.description && (
+                <p class="text-sm leading-relaxed text-muted sm:mt-0.5">
+                  {service.description}
+                </p>
+              )}
+            </div>
           </li>
         ))
       }

@@ -1,5 +1,5 @@
 ---
-import ContactForm from "../../components/ContactForm";
+import ContactBand from "../../components/ContactBand.astro";
 import Footer from "../../components/Footer.astro";
 import Header from "../../components/Header.astro";
 import Hero from "../../components/Hero.astro";
@@ -19,30 +19,7 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 
     <ServicesList locale="es" />
 
-    <section id="contact" class="scroll-mt-16 bg-surface">
-      <div class="mx-auto grid max-w-5xl gap-10 px-4 py-14 sm:px-6 sm:py-16 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)] lg:gap-16">
-        <div>
-          <h2 class="text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
-            Hablemos sobre tu proyecto
-          </h2>
-          <p class="mt-3 max-w-md text-muted">
-            Cuéntame qué estás construyendo, qué te está frenando y qué resultado buscas. Te respondo en un plazo máximo de dos días hábiles.
-          </p>
-
-          <p class="mt-6 text-sm text-muted">
-            ¿Prefieres el correo electrónico?
-            <a
-              href="mailto:contacto@endtoendsolutions.dev"
-              class="ml-1 font-medium text-accent underline underline-offset-2 hover:text-accent-ink"
-            >
-              contacto@endtoendsolutions.dev
-            </a>
-          </p>
-        </div>
-
-        <ContactForm client:visible />
-      </div>
-    </section>
+    <ContactBand locale="es" />
   </main>
 
   <Footer />

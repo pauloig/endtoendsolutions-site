@@ -76,9 +76,22 @@ one bug that must not ship.
 
 - `[PLACEHOLDER: ...]` markers are intentional deliverables, not leftovers to
   clean up. `grep -rn "PLACEHOLDER" src public` lists what still needs content.
-- The hero has a hard constraint: **the CTA must stay above the fold at
-  320×568**. Verified by measuring `getBoundingClientRect()`; re-check it if you
-  lengthen the headline or sub-copy.
+- Home is a split hero (left: eyebrow/h1/sub-copy/primary CTA + a "What I do"
+  text link to `#services`; right: a flow card with an `<ol>` of five steps),
+  then a service list of hairline-bordered rows, then a gradient contact band
+  holding the form. EN at `/`, ES at `/es/`; components take a `locale` prop and
+  hold their copy in a `content` dictionary. Below 768px the hero stacks with the
+  card after the CTA.
+- The hero has a hard constraint: **the primary CTA must stay fully above the
+  fold at 320×568, 375×667 and 390×844**. Verified by measuring
+  `getBoundingClientRect()`; re-check it if you lengthen the headline, sub-copy
+  or CTA row.
+- The header wordmark text is hidden below 360px (`hidden min-[360px]:inline`)
+  so the nav fits at 320px without horizontal overflow; the logo mark remains.
+- Gradient rule: the only gradients are the logo mark, the thin hero accent
+  (`bg-brand-gradient`, cyan → violet) and the contact band
+  (`bg-brand-gradient-band`, cyan-free `#5926ab` → `#8127fb`). Do not add other
+  gradient surfaces.
 - `ContactForm` is `client:visible`, posts to Web3Forms with honeypot; if the
   access key is missing at build time, it shows a mailto fallback. It does not
   hydrate until scrolled into view — browser tests must scroll to `#contact`
